@@ -1,0 +1,24 @@
+{
+  "name": "Customer Web App",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": { "VARIANT": "14" }
+  },
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "extensions": [
+    "coenraads.bracket-pair-colorizer-2",
+    "dbaeumer.vscode-eslint",
+    "dsznajder.es7-react-js-snippets",
+    "eamodio.gitlens",
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "github.github-vscode-theme",
+    "github.vscode-pull-request-github",
+    "ms-azuretools.vscode-docker",
+    "webhint.vscode-webhint"
+  ],
+  "forwardPorts": [3000],
+  "postCreateCommand": "npm ci"
+}
