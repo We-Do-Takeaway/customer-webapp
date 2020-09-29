@@ -12,4 +12,4 @@ jobs:
           browser: chrome
           headless: true
           start: npm start
-          env: CYPRESS_BASE_URL=http://localhost:3000
+          config: pageLoadTimeout=100000,baseUrl=http://localhost:3000
