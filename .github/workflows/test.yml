@@ -1,4 +1,4 @@
-name: Browser tests
+name: Test and lint
 
 on:
   push:
