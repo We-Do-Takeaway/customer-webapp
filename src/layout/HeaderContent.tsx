@@ -22,7 +22,12 @@ export const HeaderContent: React.FC = ({ children }) => (
         <Breadcrumb.Item>List</Breadcrumb.Item>
         <Breadcrumb.Item>App</Breadcrumb.Item>
       </Breadcrumb>
-      <div className={styles.siteLayoutContent}>{children}</div>
+      <div
+        data-testid="header-content-content"
+        className={styles.siteLayoutContent}
+      >
+        {children}
+      </div>
     </Content>
     <Footer style={{ textAlign: 'center' }}>Footer</Footer>
   </Layout>
