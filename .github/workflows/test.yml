@@ -7,11 +7,31 @@ on:
     branches: [develop, master]
 
 jobs:
-  cypress-run:
+  test:
     runs-on: ubuntu-16.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          # Enable linters
+          eslint: true
+          prettier: true
+
+      - name: Run Jest
+        run: npm test
+
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
