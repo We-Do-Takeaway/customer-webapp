@@ -37,9 +37,9 @@
     "eject": "react-scripts eject",
     "lint": "eslint src --ext ts --ext .tsx",
     "lint-staged": "lint-staged",
-    "start": "react-scripts start",
+    "start": "./env.sh && react-scripts start",
     "test": "react-scripts test",
-    "test:integration": "cypress run --browser chrome"
+    "test:integration": "./env.sh && cypress run --browser chrome"
   },
   "browserslist": {
     "production": [
