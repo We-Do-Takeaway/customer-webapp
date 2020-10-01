@@ -1,34 +1,90 @@
 import React from 'react'
 
-import { Layout, Menu, Breadcrumb } from 'antd'
+import AppBar from '@material-ui/core/AppBar'
+import Link from '@material-ui/core/Link'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core/styles'
 
-import styles from './HeaderContent.module.css'
+import { Link as RouterLink } from 'react-router-dom'
 
-const { Header, Content, Footer } = Layout
+import { ProfileMenu } from '../Sections'
 
-export const HeaderContent: React.FC = ({ children }) => (
-  <Layout className={styles.layout}>
-    <Header>
-      <div className={styles.logo} />
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-        <Menu.Item key="1">nav 1</Menu.Item>
-        <Menu.Item key="2">nav 2</Menu.Item>
-        <Menu.Item key="3">nav 3</Menu.Item>
-      </Menu>
-    </Header>
-    <Content style={{ padding: '0 50px' }}>
-      <Breadcrumb style={{ margin: '16px 0' }}>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>List</Breadcrumb.Item>
-        <Breadcrumb.Item>App</Breadcrumb.Item>
-      </Breadcrumb>
-      <div
-        data-testid="header-content-content"
-        className={styles.siteLayoutContent}
+const useStyles = makeStyles((theme) => ({
+  '@global': {
+    ul: {
+      margin: 0,
+      padding: 0,
+      listStyle: 'none',
+    },
+  },
+  appBar: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+  toolbar: {
+    flexWrap: 'wrap',
+  },
+  toolbarTitle: {
+    flexGrow: 1,
+  },
+  link: {
+    margin: theme.spacing(1, 1.5),
+  },
+}))
+
+export const HeaderContent: React.FC = ({ children }) => {
+  const classes = useStyles()
+
+  return (
+    <>
+      <AppBar
+        position="static"
+        color="default"
+        elevation={0}
+        className={classes.appBar}
       >
-        {children}
-      </div>
-    </Content>
-    <Footer style={{ textAlign: 'center' }}>Footer</Footer>
-  </Layout>
-)
+        <Toolbar className={classes.toolbar}>
+          <Typography
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.toolbarTitle}
+          >
+            We Do Takeaway
+          </Typography>
+          <nav>
+            <Link
+              component={RouterLink}
+              variant="button"
+              color="textPrimary"
+              to="/menu"
+              className={classes.link}
+            >
+              Menu
+            </Link>
+            <Link
+              component={RouterLink}
+              variant="button"
+              color="textPrimary"
+              to="/tracking"
+              className={classes.link}
+            >
+              Tracking
+            </Link>
+            <Link
+              component={RouterLink}
+              variant="button"
+              color="textPrimary"
+              to="/support"
+              className={classes.link}
+            >
+              Support
+            </Link>
+          </nav>
+          <ProfileMenu />
+        </Toolbar>
+      </AppBar>
+      <main>{children}</main>
+    </>
+  )
+}
