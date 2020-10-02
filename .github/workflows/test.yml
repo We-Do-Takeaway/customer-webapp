@@ -36,7 +36,9 @@ jobs:
           config: pageLoadTimeout=100000,baseUrl=http://localhost:3000
           record: true
         env:
-          # pass the Dashboard record key as an environment variable
+          CYPRESS_KEYCLOAK_REALM: ${{ secrets.CYPRESS_KEYCLOAK_REALM }}
+          CYPRESS_KEYCLOAK_URL: ${{ secrets.CYPRESS_KEYCLOAK_URL }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          # pass GitHub token to allow accurately detecting a build vs a re-run build
+          CYPRESS_TEST_PASSWORD: ${{ secrets.CYPRESS_TEST_PASSWORD }}
+          CYPRESS_TEST_USER: ${{ secrets.CYPRESS_TEST_USER }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
