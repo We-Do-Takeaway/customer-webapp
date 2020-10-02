@@ -1,2 +1,3 @@
 **/react-app-env.d.ts
 cypress/**/*.ts
+public/env.js
