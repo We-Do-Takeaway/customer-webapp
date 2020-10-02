@@ -1,8 +1,12 @@
-describe('CRA', () => {
-  it('shows learn link', function () {
-    cy.visit('/')
-    cy.get('[data-testid="header-content-content"]')
+context('Homepage', () => {
+  before(() => {
+    cy.logout()
+    cy.login(Cypress.env('TEST_USER'), Cypress.env('TEST_PASSWORD'))
+  })
+
+  it('shows the user email', function () {
+    cy.get('[data-testid="service-name"]')
       .should('be.visible')
-      .and('have.text', 'Welcome to We Do Takeaway')
+      .and('have.text', 'We Do Takeaway')
   })
 })

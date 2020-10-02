@@ -15,6 +15,7 @@
 .env
 .envrc
 /public/env.js
+cypress.env.json
 
 # misc
 .DS_Store

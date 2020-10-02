@@ -49,6 +49,7 @@ export const HeaderContent: React.FC = ({ children }) => {
             color="inherit"
             noWrap
             className={classes.toolbarTitle}
+            data-testid="service-name"
           >
             We Do Takeaway
           </Typography>
