@@ -1,0 +1,7 @@
+export REACT_APP_KEYCLOAK_CLIENT=c
+export REACT_APP_KEYCLOAK_REALM=r
+export REACT_APP_KEYCLOAK_URL=http://d/auth
+export CYPRESS_KEYCLOAK_REALM=we-do-takeaway-dev
+export CYPRESS_KEYCLOAK_URL=http://d/auth
+export CYPRESS_TEST_PASSWORD=asdasda
+export CYPRESS_TEST_USER=sdfsdf

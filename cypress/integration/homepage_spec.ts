@@ -4,9 +4,9 @@ context('Homepage', () => {
     cy.login(Cypress.env('TEST_USER'), Cypress.env('TEST_PASSWORD'))
   })
 
-  it('shows the user email', function () {
-    cy.get('[data-testid="service-name"]')
+  it('shows some homepage content', function () {
+    cy.get('[data-testid="home"]')
       .should('be.visible')
-      .and('have.text', 'We Do Takeaway')
+      .and('have.text', 'Welcome to We Do Takeaway')
   })
 })

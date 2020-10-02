@@ -1,7 +1,7 @@
 const timeout = 10000
 
 Cypress.Commands.add('login', (user: string, password: string) => {
-  cy.visit('/home')
+  cy.visit('http://localhost:3000/home')
 
   cy.get('#kc-header-wrapper', { timeout }).should('be.visible')
   cy.get('[name="username"]', { timeout }).type(user)

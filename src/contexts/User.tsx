@@ -21,14 +21,14 @@ interface ParsedToken {
   }
 }
 
-interface UserType extends ParsedToken {
-  authenticated: boolean
-  logout: () => void
-}
-
 interface UserProviderState {
   keycloak: KeycloakInstance | null
   authenticated: boolean
+}
+
+export interface UserType extends ParsedToken {
+  authenticated: boolean
+  logout: () => void
 }
 
 export const UserContext = createContext<UserType | null>(null)
@@ -45,6 +45,7 @@ export class UserProvider extends Component<unknown, UserProviderState> {
       realm: getEnv('KEYCLOAK_REALM', ''),
       clientId: getEnv('KEYCLOAK_CLIENT', ''),
     }
+
     const keycloak = Keycloak(keycloakConfig)
 
     keycloak.init({ onLoad: 'login-required' }).then((authenticated) => {

@@ -40,7 +40,7 @@
     "lint-staged": "lint-staged",
     "start": "./env.sh && react-scripts start",
     "test": "react-scripts test",
-    "test:integration": "./env.sh && cypress run --browser chrome"
+    "test:integration": "./env.sh && cypress run --browser chrome --headless"
   },
   "browserslist": {
     "production": [
@@ -59,7 +59,10 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "eslint src --ext ts --ext .tsx"
     }
+  },
+  "devDependencies": {
+    "cypress-intellij-reporter": "0.0.4"
   }
 }

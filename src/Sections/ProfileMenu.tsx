@@ -73,6 +73,7 @@ export const ProfileMenu = () => {
           aria-haspopup="true"
           onClick={handleToggle}
           variant="outlined"
+          data-testid="profile-menu__user-email"
         >
           {email}
         </Button>
