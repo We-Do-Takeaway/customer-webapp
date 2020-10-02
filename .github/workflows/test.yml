@@ -26,6 +26,10 @@ jobs:
 
       - name: Run Jest
         run: npm test
+        env:
+          CYPRESS_KEYCLOAK_CLIENT: ${{ secrets.CYPRESS_KEYCLOAK_CLIENT }}
+          CYPRESS_KEYCLOAK_REALM: ${{ secrets.CYPRESS_KEYCLOAK_REALM }}
+          CYPRESS_KEYCLOAK_URL: ${{ secrets.CYPRESS_KEYCLOAK_URL }}
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
@@ -36,6 +40,7 @@ jobs:
           config: pageLoadTimeout=100000,baseUrl=http://localhost:3000
           record: true
         env:
+          CYPRESS_KEYCLOAK_CLIENT: ${{ secrets.CYPRESS_KEYCLOAK_CLIENT }}
           CYPRESS_KEYCLOAK_REALM: ${{ secrets.CYPRESS_KEYCLOAK_REALM }}
           CYPRESS_KEYCLOAK_URL: ${{ secrets.CYPRESS_KEYCLOAK_URL }}
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
