@@ -1,10 +1,11 @@
-name: Test and lint
+name: Build and test
 
 on:
   push:
-    branches: [develop, master]
+    branches: [master]
   pull_request:
-    branches: [develop, master]
+    # The branches below must be a subset of the branches above
+    branches: [master]
 
 jobs:
   test:
@@ -45,3 +46,30 @@ jobs:
           REACT_APP_KEYCLOAK_CLIENT: ${{ secrets.CYPRESS_KEYCLOAK_CLIENT }}
           REACT_APP_KEYCLOAK_REALM: ${{ secrets.CYPRESS_KEYCLOAK_REALM }}
           REACT_APP_KEYCLOAK_URL: ${{ secrets.CYPRESS_KEYCLOAK_URL }}
+
+  docker:
+    name: Docker
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: test
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build latest
+        run: docker build . --tag wedotakeaway/customer-webapp:latest
+
+      - name: Push latest
+        run: docker push wedotakeaway/customer-webapp:latest
+
+      - name: Build tagged
+        run: docker build . --tag wedotakeaway/customer-webapp:$GITHUB_SHA
+
+      - name: Push tagged
+        run: docker push wedotakeaway/customer-webapp:$GITHUB_SHA

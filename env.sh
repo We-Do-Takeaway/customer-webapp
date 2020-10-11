@@ -1,8 +1,10 @@
 #!/bin/bash
 
+ENV_DEST=${ENV_DEST:-public}
+
 # Recreate config file
-rm -rf ./public/env.js
-touch ./public/env.js
+rm -rf ${ENV_DEST}/env.js
+touch ${ENV_DEST}/env.js
 
 # Add assignment
 ENVS="window._env_ = {"
@@ -20,4 +22,4 @@ for var in $(printenv); do
   fi
 done
 
-echo "${ENVS} }" > "./public/env.js"
+echo "${ENVS} }" > "${ENV_DEST}/env.js"
