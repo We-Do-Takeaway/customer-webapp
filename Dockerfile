@@ -14,7 +14,7 @@ RUN npm run build
 
 FROM nginx
 COPY --from=build /app/build /usr/share/nginx/html
-COPY --from=build /app/env.sh /usr/share/nginx/env.sh
-ENV ENV_DEST=/usr/share/nginx/html
 
-CMD ["/usr/share/nginx/env.sh","&&","nginx -g 'daemon off;'"]
+# Tell the NGINX container to generate the env.js file on startup
+ENV ENV_DEST=/usr/share/nginx/html
+COPY --from=build /app/env.sh /docker-entrypoint.d/30-env.sh

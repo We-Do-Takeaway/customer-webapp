@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 ENV_DEST=${ENV_DEST:-public}
 
 # Recreate config file
@@ -22,4 +24,7 @@ for var in $(printenv); do
   fi
 done
 
+echo "Generating env: ${ENV_DEST}/env.js"
 echo "${ENVS} }" > "${ENV_DEST}/env.js"
+
+exit 0
