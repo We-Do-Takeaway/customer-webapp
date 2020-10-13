@@ -2,7 +2,7 @@ import React from 'react'
 import { render, RenderResult } from '@testing-library/react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
-import { UserContext, UserType } from '../contexts'
+import { UserContext, UserType } from '../../contexts'
 import { ProfileMenu } from '.'
 
 describe('Profile Menu', () => {
