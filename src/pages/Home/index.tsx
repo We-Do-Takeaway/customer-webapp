@@ -1,9 +1,10 @@
 import React from 'react'
 
 import { HeaderContent } from '../../layouts'
+import { Menus } from '../../Sections'
 
 export const Home: React.FC = () => (
   <HeaderContent>
-    <div data-testid="home">Welcome to We Do Takeaway</div>
+    <Menus />
   </HeaderContent>
 )
