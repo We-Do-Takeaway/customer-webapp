@@ -11,13 +11,6 @@ import { Link as RouterLink } from 'react-router-dom'
 import { ProfileMenu } from '../Sections'
 
 const useStyles = makeStyles((theme) => ({
-  '@global': {
-    ul: {
-      margin: 0,
-      padding: 0,
-      listStyle: 'none',
-    },
-  },
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
@@ -29,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     margin: theme.spacing(1, 1.5),
+  },
+  main: {
+    padding: theme.spacing(0, 5),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    maxWidth: 1024,
   },
 }))
 
@@ -85,7 +84,7 @@ export const HeaderContent: React.FC = ({ children }) => {
           <ProfileMenu />
         </Toolbar>
       </AppBar>
-      <main>{children}</main>
+      <main className={classes.main}>{children}</main>
     </>
   )
 }
