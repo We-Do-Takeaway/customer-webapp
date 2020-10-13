@@ -3,9 +3,9 @@ import { render, RenderResult } from '@testing-library/react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 import { UserContext, UserType } from '../../contexts'
-import { Home } from '.'
+import { ProfileMenu } from '.'
 
-describe('Home Page', () => {
+describe('Profile Menu', () => {
   let wrapper: RenderResult
 
   beforeEach(() => {
@@ -23,13 +23,17 @@ describe('Home Page', () => {
     wrapper = render(
       <UserContext.Provider value={user}>
         <Router>
-          <Home />
+          <ProfileMenu />
         </Router>
       </UserContext.Provider>
     )
   })
 
-  it('renders the welcome message', () => {
-    expect(wrapper.getByText(/Welcome to We Do Takeaway/i)).toBeInTheDocument()
+  it('includes the user email details', () => {
+    const profileMenuEmailElement = wrapper.getByTestId(
+      'profile-menu__user-email'
+    )
+    expect(profileMenuEmailElement).toBeInTheDocument()
+    expect(profileMenuEmailElement).toHaveTextContent('fred@test.com')
   })
 })

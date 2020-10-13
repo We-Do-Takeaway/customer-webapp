@@ -5,8 +5,6 @@ context('Homepage', () => {
   })
 
   it('shows some homepage content', function () {
-    cy.get('[data-testid="home"]')
-      .should('be.visible')
-      .and('have.text', 'Welcome to We Do Takeaway')
+    cy.get('[data-testid="home"]').should('be.visible')
   })
 })
