@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 
 import { UserProvider } from './contexts'
 import { client } from './graphql'
-import { Home, MenuPage } from './pages'
+import { HomePage, MenuPage } from './pages'
 
 const App: React.FC = () => (
   <UserProvider>
@@ -15,7 +15,7 @@ const App: React.FC = () => (
         <Route exact path="/">
           <Redirect to="/home" />
         </Route>
-        <Route exact path="/home" component={Home} />
+        <Route exact path="/home" component={HomePage} />
         <Route exact path="/menu/:menuId" component={MenuPage} />
       </Router>
     </ApolloProvider>

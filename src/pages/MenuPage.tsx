@@ -1,6 +1,7 @@
+import { Link } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { Link as RouterLink, useParams } from 'react-router-dom'
 
 import { HeaderContent } from '../layouts'
 import { useMenu } from '../graphql/hooks'
@@ -39,24 +40,26 @@ export const MenuPage: React.FC = () => {
   const { loading, error, menu } = useMenu(menuId)
   const classes = useStyles()
 
-  if (loading) {
-    return <p>Loading...</p>
-  }
-
-  if (error) {
-    return <p>Error: {error?.message}</p>
-  }
+  const BreadCrumb = () => (
+    <>
+      <Link component={RouterLink} to="/" color="inherit">
+        Menus
+      </Link>
+    </>
+  )
 
   return (
-    <HeaderContent>
+    <HeaderContent breadcrumbs={<BreadCrumb />}>
       <header>
         <h1>{menu?.name}</h1>
         <p>{menu?.description}</p>
         <p>{menu?.introduction}</p>
       </header>
+      {loading && <p>Loading...</p>}
+      {error && <p>{error?.message}</p>}
       {menu &&
         menu?.sections?.map((section) => (
-          <div key={section.id}>
+          <React.Fragment key={section.id}>
             <h2>{section.name}</h2>
             <p>{section.description}</p>
             <ul className={classes.items}>
@@ -66,7 +69,7 @@ export const MenuPage: React.FC = () => {
                 </li>
               ))}
             </ul>
-          </div>
+          </React.Fragment>
         ))}
     </HeaderContent>
   )
