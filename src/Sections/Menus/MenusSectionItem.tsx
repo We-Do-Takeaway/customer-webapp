@@ -17,14 +17,18 @@ interface MenuProps {
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    display: 'flex',
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
   },
   media: {
-    height: 140,
+    width: '100%',
   },
 })
 
-export const Menu: React.FC<MenuProps> = ({ menu }) => {
+export const MenusSectionItem: React.FC<MenuProps> = ({ menu }) => {
   const classes = useStyles()
   const history = useHistory()
 
@@ -34,29 +38,30 @@ export const Menu: React.FC<MenuProps> = ({ menu }) => {
 
   return (
     <Card className={classes.root} onClick={learnMore}>
-      <CardActionArea>
+      <div className={classes.details}>
+        <CardActionArea>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {menu.name}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+              {menu.description}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <Button size="small" color="primary" onClick={learnMore}>
+            Learn More
+          </Button>
+        </CardActions>
+      </div>
+      {menu.photo && (
         <CardMedia
           className={classes.media}
-          image="https://via.placeholder.com/345x140"
+          image={menu.photo}
           title={menu.name}
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            {menu.name}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {menu.description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary" onClick={learnMore}>
-          Learn More
-        </Button>
-      </CardActions>
+      )}
     </Card>
   )
 }
