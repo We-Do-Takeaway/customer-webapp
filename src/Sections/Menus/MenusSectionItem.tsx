@@ -15,9 +15,10 @@ interface MenuProps {
   menu: MenuSummary
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    margin: theme.spacing(5, 0),
   },
   details: {
     display: 'flex',
@@ -26,7 +27,7 @@ const useStyles = makeStyles({
   media: {
     width: '100%',
   },
-})
+}))
 
 export const MenusSectionItem: React.FC<MenuProps> = ({ menu }) => {
   const classes = useStyles()
