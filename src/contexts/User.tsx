@@ -1,5 +1,8 @@
+/* eslint @typescript-eslint/camelcase: 0 */
 import React, { Component, createContext } from 'react'
-import Keycloak, { KeycloakInstance } from 'keycloak-js'
+import jwt from 'jsonwebtoken'
+import Keycloak from 'keycloak-js'
+
 import { getEnv } from '../utils'
 
 const TokenCheckTime = 30 * 1000
@@ -11,88 +14,146 @@ interface ParsedToken {
   given_name?: string
   name?: string
   preferred_username?: string
-  realm_access: {
+  realm_access?: {
     roles: string[]
   }
-  resource_access: {
+  resource_access?: {
     account: {
       roles: string[]
     }
   }
 }
 
-interface UserProviderState {
-  keycloak: KeycloakInstance | null
-  authenticated: boolean
-}
-
 export interface UserType extends ParsedToken {
-  authenticated: boolean
   logout: () => void
 }
 
 export const UserContext = createContext<UserType | null>(null)
 
-export class UserProvider extends Component<unknown, UserProviderState> {
+const defaultState: ParsedToken = {
+  email: undefined,
+  family_name: undefined,
+  given_name: undefined,
+  name: undefined,
+  preferred_username: undefined,
+  realm_access: undefined,
+  resource_access: undefined,
+}
+
+const keycloakConfig = {
+  url: getEnv('KEYCLOAK_URL', ''),
+  realm: getEnv('KEYCLOAK_REALM', ''),
+  clientId: getEnv('KEYCLOAK_CLIENT', ''),
+}
+
+export class UserProvider extends Component<unknown, ParsedToken> {
+  intervalRef: NodeJS.Timeout | undefined
+
+  keycloak: Keycloak.KeycloakInstance | undefined
+
   constructor(props: unknown) {
     super(props)
-    this.state = { keycloak: null, authenticated: false }
+
+    this.keycloak = Keycloak(keycloakConfig)
+
+    // If the user is refreshing the page, then use the token in the session store
+    // to provide the user details
+    const token = sessionStorage.getItem('token')
+    if (token) {
+      const parsedToken = jwt.decode(token || '', { json: true }) as ParsedToken
+      this.state = { ...parsedToken }
+    } else {
+      this.state = { ...defaultState }
+    }
   }
 
   componentDidMount() {
-    const keycloakConfig = {
-      url: getEnv('KEYCLOAK_URL', ''),
-      realm: getEnv('KEYCLOAK_REALM', ''),
-      clientId: getEnv('KEYCLOAK_CLIENT', ''),
+    // If we don't have a token in the session store, go get one from Keycloak
+    if (!sessionStorage.getItem('token')) {
+      this.login()
+    } else {
+      // Tell keycloak to go refresh the token on a regular basis
+      const { keycloak } = this
+
+      if (!keycloak) {
+        return
+      }
+
+      this.intervalRef = setInterval(() => {
+        keycloak
+          .updateToken(TokenTimoutBuffer)
+          .then((refreshed: boolean) => {
+            if (refreshed && keycloak.token) {
+              this.updateUser(keycloak.token)
+            }
+          })
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          .catch(() => {})
+      }, TokenCheckTime)
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.intervalRef) {
+      clearInterval(this.intervalRef)
+    }
+  }
+
+  updateUser = (token: string) => {
+    sessionStorage.setItem('token', token)
+
+    const parsedToken = jwt.decode(token, {
+      json: true,
+    }) as ParsedToken
+
+    this.setState({ ...parsedToken })
+  }
+
+  logout = async () => {
+    const { keycloak } = this
+
+    if (!keycloak) {
+      return
     }
 
-    const keycloak = Keycloak(keycloakConfig)
+    if (this.intervalRef) {
+      clearInterval(this.intervalRef)
+    }
+
+    this.setState({ ...defaultState })
+    sessionStorage.removeItem('token')
+
+    await keycloak.logout()
+  }
+
+  login() {
+    const { keycloak } = this
+
+    if (!keycloak) {
+      return
+    }
 
     keycloak.init({ onLoad: 'login-required' }).then((authenticated) => {
-      this.setState({ keycloak, authenticated })
-      localStorage.setItem('token', keycloak.token || '')
-
-      setInterval(() => {
-        keycloak.updateToken(TokenTimoutBuffer).then((refreshed: boolean) => {
-          if (refreshed) {
-            localStorage.setItem('token', keycloak.token || '')
-          }
-        })
-      }, TokenCheckTime)
+      if (authenticated && keycloak.token) {
+        this.updateUser(keycloak.token)
+      }
     })
   }
 
-  logout = () => {
-    if (this.state.keycloak) {
-      this.state.keycloak.logout().then(() => {
-        this.setState({
-          authenticated: false,
-        })
-      })
-    }
-
-    localStorage.removeItem('token')
-  }
-
   render() {
-    if (this.state.keycloak) {
-      if (this.state.authenticated) {
-        const tokenParsed = this.state.keycloak.tokenParsed as ParsedToken
-
-        return (
-          <UserContext.Provider
-            value={{
-              ...tokenParsed,
-              authenticated: this.state.authenticated,
-              logout: this.logout,
-            }}
-          >
-            {this.props.children}
-          </UserContext.Provider>
-        )
-      }
-      return <>Unable to authenticate</>
+    if (!this?.state?.email) {
+      return <p>Please authenticate</p>
     }
-    return <div>Initializing authentication...</div>
+
+    return (
+      <UserContext.Provider
+        value={{
+          ...this.state,
+          logout: this.logout,
+        }}
+      >
+        {this.props.children}
+      </UserContext.Provider>
+    )
   }
 }

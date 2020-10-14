@@ -12,7 +12,7 @@ const httpLink = createHttpLink({
 })
 
 const authLink = setContext((_: GraphQLRequest, { headers }) => {
-  const token = localStorage.getItem('token')
+  const token = sessionStorage.getItem('token')
 
   return {
     headers: {
