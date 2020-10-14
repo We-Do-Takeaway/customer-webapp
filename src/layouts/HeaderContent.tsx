@@ -67,6 +67,7 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
       >
         <Toolbar className={classes.toolbar}>
           <Link
+            data-testid="service-name"
             className={classes.toolbarTitle}
             component={RouterLink}
             variant="h6"

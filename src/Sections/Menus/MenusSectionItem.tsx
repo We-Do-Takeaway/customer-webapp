@@ -38,14 +38,28 @@ export const MenusSectionItem: React.FC<MenuProps> = ({ menu }) => {
   }
 
   return (
-    <Card className={classes.root} onClick={learnMore}>
+    <Card
+      data-testid="menu-section-item"
+      className={classes.root}
+      onClick={learnMore}
+    >
       <div className={classes.details}>
-        <CardActionArea>
+        <CardActionArea data-testid="menu-section-item-button">
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="h2"
+              data-testid="menu-section-item-title"
+            >
               {menu.name}
             </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              component="p"
+              data-testid="menu-section-item-description"
+            >
               {menu.description}
             </Typography>
           </CardContent>
