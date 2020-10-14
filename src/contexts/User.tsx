@@ -50,12 +50,12 @@ export class UserProvider extends Component<unknown, UserProviderState> {
 
     keycloak.init({ onLoad: 'login-required' }).then((authenticated) => {
       this.setState({ keycloak, authenticated })
-      localStorage.setItem('token', keycloak.token || '')
+      sessionStorage.setItem('token', keycloak.token || '')
 
       setInterval(() => {
         keycloak.updateToken(TokenTimoutBuffer).then((refreshed: boolean) => {
           if (refreshed) {
-            localStorage.setItem('token', keycloak.token || '')
+            sessionStorage.setItem('token', keycloak.token || '')
           }
         })
       }, TokenCheckTime)
@@ -71,7 +71,7 @@ export class UserProvider extends Component<unknown, UserProviderState> {
       })
     }
 
-    localStorage.removeItem('token')
+    sessionStorage.removeItem('token')
   }
 
   render() {
