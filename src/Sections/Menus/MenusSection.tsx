@@ -1,13 +1,13 @@
 import React from 'react'
 
 import { useMenus } from '../../graphql/hooks'
-import { Menu } from '.'
+import { MenusSectionItem } from '.'
 
-export const Menus = () => {
+export const MenusSection = () => {
   const { loading, error, menus } = useMenus()
 
   if (loading) {
-    return <p>Loading...</p>
+    return <></>
   }
 
   if (error) {
@@ -17,7 +17,7 @@ export const Menus = () => {
   return (
     <>
       {menus?.map((menu) => (
-        <Menu menu={menu} />
+        <MenusSectionItem key={menu.id} menu={menu} />
       ))}
     </>
   )
