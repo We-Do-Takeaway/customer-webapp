@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 
 import AppBar from '@material-ui/core/AppBar'
 import Link from '@material-ui/core/Link'
 import Toolbar from '@material-ui/core/Toolbar'
-import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
+import { Breadcrumbs } from '@material-ui/core'
 
 import { Link as RouterLink } from 'react-router-dom'
 
@@ -16,22 +16,45 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     flexWrap: 'wrap',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    padding: theme.spacing(0, 3),
+    maxWidth: 1024,
+    width: '100%',
   },
   toolbarTitle: {
     flexGrow: 1,
+    color: '#000',
+  },
+  breadcrumbs: {
+    flexWrap: 'wrap',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    padding: theme.spacing(1, 3),
+    maxWidth: 1024,
+    width: '100%',
   },
   link: {
     margin: theme.spacing(1, 1.5),
   },
   main: {
-    padding: theme.spacing(0, 5),
+    marginTop: theme.spacing(3),
     marginLeft: 'auto',
     marginRight: 'auto',
+    padding: theme.spacing(0, 3),
     maxWidth: 1024,
+    width: '100%',
   },
 }))
 
-export const HeaderContent: React.FC = ({ children }) => {
+interface HeaderContentProps {
+  breadcrumbs?: ReactElement | ReactElement[]
+}
+
+export const HeaderContent: React.FC<HeaderContentProps> = ({
+  children,
+  breadcrumbs,
+}) => {
   const classes = useStyles()
 
   return (
@@ -43,21 +66,21 @@ export const HeaderContent: React.FC = ({ children }) => {
         className={classes.appBar}
       >
         <Toolbar className={classes.toolbar}>
-          <Typography
-            variant="h6"
-            color="inherit"
-            noWrap
+          <Link
             className={classes.toolbarTitle}
-            data-testid="service-name"
+            component={RouterLink}
+            variant="h6"
+            to="/"
           >
             We Do Takeaway
-          </Typography>
+          </Link>
+
           <nav>
             <Link
               component={RouterLink}
               variant="button"
               color="textPrimary"
-              to="/menu"
+              to="/"
               className={classes.link}
             >
               Menu
@@ -84,6 +107,15 @@ export const HeaderContent: React.FC = ({ children }) => {
           <ProfileMenu />
         </Toolbar>
       </AppBar>
+      {breadcrumbs && (
+        <Breadcrumbs
+          className={classes.breadcrumbs}
+          separator="›"
+          aria-label="breadcrumb"
+        >
+          {breadcrumbs}
+        </Breadcrumbs>
+      )}
       <main className={classes.main}>{children}</main>
     </>
   )
