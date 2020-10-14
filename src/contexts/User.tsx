@@ -5,8 +5,7 @@ import Keycloak from 'keycloak-js'
 
 import { getEnv } from '../utils'
 
-const TokenCheckTime = 30 * 1000
-const TokenTimoutBuffer = 300
+const TokenCheckTime = 30
 
 interface ParsedToken {
   email?: string
@@ -79,23 +78,16 @@ export class UserProvider extends Component<unknown, ParsedToken> {
         return
       }
 
-      this.intervalRef = setInterval(() => {
-        keycloak
-          .updateToken(TokenTimoutBuffer)
-          .then((refreshed: boolean) => {
-            if (refreshed && keycloak.token) {
-              this.updateUser(keycloak.token)
-            }
-          })
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
-          .catch(() => {})
-      }, TokenCheckTime)
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.intervalRef) {
-      clearInterval(this.intervalRef)
+      keycloak
+        .updateToken(TokenCheckTime)
+        .then(() => {
+          if (keycloak.token) {
+            this.updateUser(keycloak.token)
+          }
+        })
+        .catch(() => {
+          console.log('Failed to refresh token', keycloak.token)
+        })
     }
   }
 
@@ -112,18 +104,12 @@ export class UserProvider extends Component<unknown, ParsedToken> {
   logout = async () => {
     const { keycloak } = this
 
-    if (!keycloak) {
-      return
-    }
-
-    if (this.intervalRef) {
-      clearInterval(this.intervalRef)
-    }
-
     this.setState({ ...defaultState })
     sessionStorage.removeItem('token')
 
-    await keycloak.logout()
+    if (keycloak && keycloak.logout) {
+      await keycloak.logout()
+    }
   }
 
   login() {
