@@ -7,10 +7,6 @@ import { UserProvider } from './contexts'
 import { client } from './graphql'
 import { Home, MenuPage } from './pages'
 
-// Todo: Add Apollo client
-// Todo: Hook to fetch menus and sections
-// Todo: Display menu name and a list of sections
-
 const App: React.FC = () => (
   <UserProvider>
     <ApolloProvider client={client}>
