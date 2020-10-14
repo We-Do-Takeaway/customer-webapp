@@ -8,6 +8,5 @@ export const Home: React.FC = () => (
     <div data-testid="home">
       <Menus />
     </div>
-    .
   </HeaderContent>
 )

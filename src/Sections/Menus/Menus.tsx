@@ -17,7 +17,7 @@ export const Menus = () => {
   return (
     <>
       {menus?.map((menu) => (
-        <Menu menu={menu} />
+        <Menu key={menu.id} menu={menu} />
       ))}
     </>
   )

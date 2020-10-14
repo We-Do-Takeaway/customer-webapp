@@ -12,9 +12,4 @@ declare global {
 // eslint-disable-next-line no-underscore-dangle
 window._env_ = window._env_ || {}
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-)
+ReactDOM.render(<App />, document.getElementById('root'))
