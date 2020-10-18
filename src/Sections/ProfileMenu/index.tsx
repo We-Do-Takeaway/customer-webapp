@@ -8,7 +8,7 @@ import Popper from '@material-ui/core/Popper'
 import MenuItem from '@material-ui/core/MenuItem'
 import MenuList from '@material-ui/core/MenuList'
 import { makeStyles } from '@material-ui/core/styles'
-import { UserContext } from '../../contexts'
+import { UserContext } from '../../auth'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,8 +23,7 @@ export const ProfileMenu = () => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLButtonElement>(null)
-  const userContext = useContext(UserContext)
-  const email = userContext?.email
+  const { logout, user } = useContext(UserContext)
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen)
@@ -50,9 +49,7 @@ export const ProfileMenu = () => {
   }
 
   function onLogout() {
-    if (userContext) {
-      userContext.logout()
-    }
+    logout()
   }
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(open)
@@ -75,7 +72,7 @@ export const ProfileMenu = () => {
           variant="outlined"
           data-testid="profile-menu__user-email"
         >
-          {email}
+          {user?.email}
         </Button>
         <Popper
           open={open}
