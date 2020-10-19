@@ -5,6 +5,8 @@ import {
   InMemoryCache,
 } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
+
+import { getLocalToken } from '../auth/token'
 import { getEnv } from '../utils'
 
 const httpLink = createHttpLink({
@@ -12,7 +14,7 @@ const httpLink = createHttpLink({
 })
 
 const authLink = setContext((_: GraphQLRequest, { headers }) => {
-  const token = sessionStorage.getItem('token')
+  const token = getLocalToken()
 
   return {
     headers: {

@@ -2,26 +2,47 @@ import React from 'react'
 import { render, RenderResult } from '@testing-library/react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
-import { UserContext, UserType } from '../../contexts'
 import { ProfileMenu } from '.'
+import { LoginParams, UserContext } from '../../auth'
 
 describe('Profile Menu', () => {
   let wrapper: RenderResult
+  let logout: jest.Mock<any, any>
 
   beforeEach(() => {
-    const user: UserType = {
-      email: 'fred@test.com',
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      logout: () => {},
-      authenticated: true,
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      realm_access: { roles: [] },
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      resource_access: { account: { roles: [] } },
-    }
+    logout = jest.fn()
 
     wrapper = render(
-      <UserContext.Provider value={user}>
+      <UserContext.Provider
+        value={{
+          user: {
+            email: 'fred@test.com',
+            email_verified: true,
+            family_name: 'Test',
+            given_name: 'Fred',
+            name: 'Fred Test',
+            preferred_username: 'fred@test.com',
+            realm_access: {
+              roles: [],
+            },
+            resource_access: {
+              account: {
+                roles: [],
+              },
+            },
+          },
+          authenticating: false,
+          error: undefined,
+          // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
+          login: (params: LoginParams) => {
+            return new Promise((resolve) => {
+              resolve()
+            })
+          },
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          logout,
+        }}
+      >
         <Router>
           <ProfileMenu />
         </Router>

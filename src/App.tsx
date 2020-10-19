@@ -1,22 +1,29 @@
 import React from 'react'
 import { ApolloProvider } from '@apollo/client'
-import { BrowserRouter as Router, Redirect, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
-import { UserProvider } from './contexts'
 import { client } from './graphql'
-import { HomePage, MenuPage } from './pages'
+import {
+  HomePage,
+  LoginPage,
+  LogoutPage,
+  MenuPage,
+  UnauthorisedPage,
+} from './pages'
+import { ProtectedRoute, UserProvider } from './auth'
 
 const App: React.FC = () => (
   <UserProvider>
     <ApolloProvider client={client}>
       <CssBaseline />
       <Router>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-        <Route exact path="/home" component={HomePage} />
-        <Route exact path="/menu/:menuId" component={MenuPage} />
+        <ProtectedRoute exact path="/" component={HomePage} />
+        <ProtectedRoute exact path="/home" component={HomePage} />
+        <ProtectedRoute exact path="/menu/:menuId" component={MenuPage} />
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/logout" component={LogoutPage} />
+        <Route exact path="/unauthorised" component={UnauthorisedPage} />
       </Router>
     </ApolloProvider>
   </UserProvider>

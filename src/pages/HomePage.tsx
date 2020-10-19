@@ -5,7 +5,7 @@ import { MenusSection } from '../Sections'
 
 export const HomePage: React.FC = () => (
   <HeaderContent>
-    <div data-testid="home">
+    <div data-testid="home-page">
       <MenusSection />
     </div>
   </HeaderContent>
