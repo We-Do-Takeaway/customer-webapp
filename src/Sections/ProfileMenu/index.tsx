@@ -98,7 +98,9 @@ export const ProfileMenu = () => {
                   >
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
                     <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={onLogout}>Logout</MenuItem>
+                    <MenuItem data-testid="logout-button" onClick={onLogout}>
+                      Logout
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

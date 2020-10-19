@@ -47,7 +47,7 @@ describe('UserContext', () => {
     let fakeTokenResponse: TokenResponse | undefined
 
     beforeEach(() => {
-      fakeTokenResponse = getTokenResponse()
+      fakeTokenResponse = getTokenResponse(10512000)
 
       // @ts-ignore
       FetchToken.fetchToken = jest.fn().mockResolvedValue(fakeTokenResponse)

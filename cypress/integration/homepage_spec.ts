@@ -1,11 +1,11 @@
 context('Homepage', () => {
   before(() => {
-    cy.logout()
-    cy.login(Cypress.env('TEST_USER'), Cypress.env('TEST_PASSWORD'))
+    cy.login()
+    cy.visit('/home')
   })
 
   it('shows some homepage content', function () {
-    cy.get('[data-testid="home"]').should('be.visible')
+    cy.get('[data-testid="home-page"]').should('be.visible')
   })
 
   it('lists the menus available as cards', () => {

@@ -74,7 +74,7 @@ export const LoginPage: React.FC = () => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
+      <div className={classes.paper} data-testid="login-page">
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
@@ -115,6 +115,7 @@ export const LoginPage: React.FC = () => {
               color="primary"
               className={classes.submit}
               disabled={authenticating}
+              data-testid="login-button"
             >
               Sign In
             </Button>

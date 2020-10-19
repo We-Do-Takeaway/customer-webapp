@@ -1,7 +1,7 @@
 context('Header', () => {
   before(() => {
-    cy.logout()
-    cy.login(Cypress.env('TEST_USER'), Cypress.env('TEST_PASSWORD'))
+    cy.login()
+    cy.visit('/home')
   })
 
   it('shows the service name', function () {
