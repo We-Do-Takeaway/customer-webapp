@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form'
 import { Redirect } from 'react-router-dom'
 
 import { hasToken, UserContext } from '../auth'
+import { log } from '../auth/utils'
 
 function Copyright() {
   return (
@@ -62,6 +63,7 @@ export const LoginPage: React.FC = () => {
   })
 
   if (hasToken()) {
+    log.debug('LoginPage:Has Token')
     return (
       <Redirect
         to={{
@@ -70,6 +72,8 @@ export const LoginPage: React.FC = () => {
       />
     )
   }
+
+  log.debug('LoginPage:No Token')
 
   return (
     <Container component="main" maxWidth="xs">

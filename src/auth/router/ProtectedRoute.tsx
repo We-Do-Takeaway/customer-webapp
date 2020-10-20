@@ -3,6 +3,7 @@ import { Redirect, Route } from 'react-router'
 import { RouteComponentProps } from 'react-router-dom'
 
 import { hasRoles, hasToken, UserContext } from '../index'
+import { log } from '../utils'
 
 interface Props {
   component:
@@ -22,6 +23,7 @@ export const ProtectedRoute: React.FC<Props> = ({
   const hasPermission = user && hasRoles(user, requiredRoles) && hasToken()
 
   if (!isAuthed) {
+    log.debug('ProtectedRoute:Not Authed')
     return (
       <Redirect
         to={{
@@ -32,6 +34,8 @@ export const ProtectedRoute: React.FC<Props> = ({
   }
 
   if (!hasPermission) {
+    log.debug('ProtectedRoute:Not Permitted')
+
     return (
       <Redirect
         to={{
