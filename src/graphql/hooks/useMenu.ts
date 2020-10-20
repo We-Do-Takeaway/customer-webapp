@@ -61,6 +61,7 @@ const MENUS_QUERY = gql`
           id
           name
           description
+          photo
         }
       }
     }
