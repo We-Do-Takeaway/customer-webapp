@@ -9,9 +9,9 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import { useHistory } from 'react-router-dom'
 
-import { MenuSummary } from '../../graphql/hooks'
+import { MenuSummary } from '../graphql/hooks'
 
-interface MenuProps {
+interface MenuSummaryCardProps {
   menu: MenuSummary
 }
 
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const MenusSectionItem: React.FC<MenuProps> = ({ menu }) => {
+export const MenuSummaryCard: React.FC<MenuSummaryCardProps> = ({ menu }) => {
   const classes = useStyles()
   const history = useHistory()
 
@@ -39,18 +39,18 @@ export const MenusSectionItem: React.FC<MenuProps> = ({ menu }) => {
 
   return (
     <Card
-      data-testid="menu-section-item"
+      data-testid="menu-summary-card"
       className={classes.root}
       onClick={learnMore}
     >
       <div className={classes.details}>
-        <CardActionArea data-testid="menu-section-item-button">
+        <CardActionArea data-testid="menu-summary-card-button">
           <CardContent>
             <Typography
               gutterBottom
               variant="h5"
               component="h2"
-              data-testid="menu-section-item-title"
+              data-testid="menu-summary-card-title"
             >
               {menu.name}
             </Typography>
@@ -58,7 +58,7 @@ export const MenusSectionItem: React.FC<MenuProps> = ({ menu }) => {
               variant="body2"
               color="textSecondary"
               component="p"
-              data-testid="menu-section-item-description"
+              data-testid="menu-summary-card-description"
             >
               {menu.description}
             </Typography>
