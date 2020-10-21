@@ -1,2 +1,3 @@
+export * from './MenuList'
 export * from './ProfileMenu'
-export * from './Menus'
+export * from './SectionList'
