@@ -94,9 +94,11 @@ export const UserProvider: React.FC = ({ children }) => {
     }
 
     log.debug('Token changed: Set timer for renewal')
+
+    // When the token is 75% through it lifespan , renew (accounts for short tokens)
     timeoutRef = setTimeout(async () => {
       await renewToken()
-    }, 300 * 1000)
+    }, 300 * 1000 * 0.75)
   }, [token])
 
   // Extract the user from the token

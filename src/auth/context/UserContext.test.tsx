@@ -94,7 +94,7 @@ describe('UserContext', () => {
       it('create a timer based on the expires value', () => {
         expect(setTimeout).toHaveBeenLastCalledWith(
           expect.any(Function),
-          300000
+          300000 * 0.75
         )
       })
 
