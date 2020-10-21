@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Redirect, Route } from 'react-router'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, useLocation } from 'react-router-dom'
 
 import { hasRoles, hasToken, UserContext } from '../index'
 import { log } from '../utils'
@@ -21,29 +21,40 @@ export const ProtectedRoute: React.FC<Props> = ({
   const { user } = useContext(UserContext)
   const isAuthed = hasToken()
   const hasPermission = user && hasRoles(user, requiredRoles) && hasToken()
+  const location = useLocation()
 
-  if (!isAuthed) {
-    log.debug('ProtectedRoute:Not Authed')
-    return (
-      <Redirect
-        to={{
-          pathname: '/login',
-        }}
-      />
-    )
+  // If the user has requested 'This' page
+  if (props.path === location.pathname) {
+    // and they are not authenticated, goto login
+    if (!isAuthed) {
+      log.debug('ProtectedRout:Unauthenticated:RedirectToLogin')
+
+      // Redirect to login
+      return (
+        <Redirect
+          to={{
+            pathname: '/login',
+          }}
+        />
+      )
+    }
+
+    // and they are not permitted, tell them
+    if (!hasPermission) {
+      log.debug('ProtectedRoute:Not Permitted')
+
+      return (
+        <Redirect
+          to={{
+            pathname: '/unauthorised',
+          }}
+        />
+      )
+    }
   }
 
-  if (!hasPermission) {
-    log.debug('ProtectedRoute:Not Permitted')
+  log.debug('ProtectedRoute:OK')
 
-    return (
-      <Redirect
-        to={{
-          pathname: '/unauthorised',
-        }}
-      />
-    )
-  }
-
+  // Either not the current page, so we don't care, or permitted
   return <Route {...props} />
 }

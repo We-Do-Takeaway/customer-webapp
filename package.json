@@ -29,6 +29,7 @@
     "@ztolley/eslint-config-typescript": "^1.1.1",
     "classnames": "^2.2.6",
     "cypress": "^5.4.0",
+    "cypress-intellij-reporter": "0.0.4",
     "graphql": "^15.3.0",
     "husky": "^4.3.0",
     "jest-fetch-mock": "^3.0.3",
@@ -76,5 +77,6 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
-  }
+  },
+  "devDependencies": {}
 }
