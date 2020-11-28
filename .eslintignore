@@ -1,3 +1,5 @@
 **/react-app-env.d.ts
 cypress/**/*.ts
 public/env.js
+.eslintrc.js
+tsconfig.json
