@@ -1,5 +1,7 @@
 import { ApolloError, gql, useQuery } from '@apollo/client'
 
+import { Connection } from '../types'
+
 export interface MenuSummary {
   id: string
   name: string
@@ -12,22 +14,36 @@ export interface MenuSummary {
 interface UseMenusResponse {
   loading?: boolean
   error?: ApolloError
-  menus?: MenuSummary[]
+  menus?: Connection<MenuSummary>
 }
 
 interface UseMenusQueryResponse {
-  menus: MenuSummary[]
+  menus: Connection<MenuSummary>
 }
 
 const MENUS_QUERY = gql`
   query {
     menus {
-      id
-      name
-      description
-      introduction
-      footer
-      photo
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+      edges {
+        cursor
+        node {
+          id
+        }
+      }
+      nodes {
+        id
+        name
+        description
+        introduction
+        footer
+        photo
+      }
     }
   }
 `

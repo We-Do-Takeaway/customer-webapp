@@ -16,7 +16,7 @@ export const MenuList: React.FC = () => {
 
   return (
     <>
-      {menus?.map((menu) => (
+      {menus?.nodes.map((menu) => (
         <MenuSummaryCard key={menu.id} menu={menu} />
       ))}
     </>

@@ -4,7 +4,8 @@ import Card from '@material-ui/core/Card'
 import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import { SectionItem } from '../graphql'
+
+import { Item } from '../graphql/hooks/useMenu'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 interface ItemCardProps {
-  item: SectionItem
+  item: Item
 }
 
 export const ItemCard: React.FC<ItemCardProps> = ({ item }) => {

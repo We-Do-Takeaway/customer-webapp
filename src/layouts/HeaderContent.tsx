@@ -5,10 +5,10 @@ import Link from '@material-ui/core/Link'
 import Toolbar from '@material-ui/core/Toolbar'
 import { makeStyles } from '@material-ui/core/styles'
 import { Breadcrumbs } from '@material-ui/core'
-
+import { useKeycloak } from '@react-keycloak/web'
 import { Link as RouterLink } from 'react-router-dom'
 
-import { ProfileMenu } from '../Sections'
+import { ProfileLoggedOut, ProfileMenu } from '../Sections'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -56,6 +56,7 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
   breadcrumbs,
 }) => {
   const classes = useStyles()
+  const { keycloak } = useKeycloak()
 
   return (
     <>
@@ -105,7 +106,8 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
               Support
             </Link>
           </nav>
-          <ProfileMenu />
+          {keycloak.authenticated && <ProfileMenu />}
+          {!keycloak.authenticated && <ProfileLoggedOut />}
         </Toolbar>
       </AppBar>
       {breadcrumbs && (

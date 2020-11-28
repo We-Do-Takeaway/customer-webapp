@@ -5,8 +5,7 @@ const sectionItemSel = (sectionNumber: number, itemNumber: number) =>
 
 context('Menu page', () => {
   before(() => {
-    cy.login()
-    cy.visit('/menu/600dca30-c6e2-4035-ad15-783c122d6ea4')
+    cy.visit('/menu/600dca30-c6e2-4035-ad15-783c122d6ea1')
   })
 
   it('display menu details', () => {
@@ -74,7 +73,7 @@ context('Menu page', () => {
 
           cy.get('[data-testid="section-description"]').should(
             'contain',
-            'The best part of the menu'
+            'The best stuff'
           )
         })
       })
@@ -86,29 +85,8 @@ context('Menu page', () => {
         )
       })
 
-      it('first desert item is Chocolate ice-cream surprise', () => {
+      it('1st  desert item is a bowl of cherries', () => {
         cy.get(sectionItemSel(2, 1)).within(() => {
-          cy.get('[data-testid="item-card-title"]').should(
-            'contain',
-            'Chocolate ice-cream surprise'
-          )
-
-          cy.get('[data-testid="item-card-description"]').should(
-            'contain',
-            'An amazing mixture of chocolate and cherries'
-          )
-
-          cy.get('[data-testid="item-card-image"]')
-            .should('have.css', 'background-image')
-            .and(
-              'contain',
-              'url("https://www.wedotakeaway.com/images/choc-ice-cream.webp")'
-            )
-        })
-      })
-
-      it('2nd  desert item is a bowl of cherries', () => {
-        cy.get(sectionItemSel(2, 2)).within(() => {
           cy.get('[data-testid="item-card-title"]').should(
             'contain',
             'Bowl of cherries'
@@ -124,6 +102,27 @@ context('Menu page', () => {
             .and(
               'contain',
               'url("https://www.wedotakeaway.com/images/cherries.jpg")'
+            )
+        })
+      })
+
+      it('2nd desert item is Chocolate ice-cream surprise', () => {
+        cy.get(sectionItemSel(2, 2)).within(() => {
+          cy.get('[data-testid="item-card-title"]').should(
+            'contain',
+            'Chocolate ice-cream surprise'
+          )
+
+          cy.get('[data-testid="item-card-description"]').should(
+            'contain',
+            'An amazing mixture of chocolate and cherries'
+          )
+
+          cy.get('[data-testid="item-card-image"]')
+            .should('have.css', 'background-image')
+            .and(
+              'contain',
+              'url("https://www.wedotakeaway.com/images/choc-ice-cream.webp")'
             )
         })
       })

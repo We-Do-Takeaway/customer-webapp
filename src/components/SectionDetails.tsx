@@ -1,16 +1,17 @@
 import React from 'react'
-import { MenuSection } from '../graphql/hooks'
+
+import { Section } from '../graphql'
 import { ItemCard } from '.'
 
 interface SectionDisplayProps {
-  section: MenuSection
+  section: Section
 }
 
 export const SectionDisplay: React.FC<SectionDisplayProps> = ({ section }) => (
   <div>
     <h2>{section.name}</h2>
     <p>{section.description}</p>
-    {section.items?.map((item) => (
+    {section.items?.nodes.map((item) => (
       <ItemCard item={item} />
     ))}
   </div>

@@ -1,6 +1,5 @@
 context('Homepage', () => {
   before(() => {
-    cy.login()
     cy.visit('/home')
   })
 
@@ -35,7 +34,7 @@ context('Homepage', () => {
     it('navigate to menu page', () => {
       cy.location('href').should(
         'contain',
-        '/menu/600dca30-c6e2-4035-ad15-783c122d6ea4'
+        '/menu/600dca30-c6e2-4035-ad15-783c122d6ea1'
       )
     })
   })

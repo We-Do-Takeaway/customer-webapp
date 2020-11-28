@@ -2,10 +2,10 @@ name: Build and test
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [master]
+    branches: [main]
 
 jobs:
   test:
@@ -24,9 +24,6 @@ jobs:
 
       - name: Run linters
         run: npm run lint
-
-      - name: Run Jest
-        run: npm test
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
@@ -51,7 +48,7 @@ jobs:
   docker:
     name: Docker
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: test
 
     steps:
@@ -78,7 +75,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: docker
 
     steps:
