@@ -1,24 +1,25 @@
 import { ApolloError, gql, useQuery } from '@apollo/client'
 
-export interface SectionItem {
+import { Connection } from '../types'
+
+export interface Item {
   id: string
   name: string
   description: string
   introduction?: string
   footer?: string
   photo?: string
-  order?: number
 }
 
-export interface MenuSection {
+export interface Section {
   id: string
   name: string
   description: string
   introduction?: string
   footer?: string
   photo?: string
-  order?: number
-  items?: SectionItem[]
+  displayOrder?: number
+  items?: Connection<Item>
 }
 
 interface Menu {
@@ -27,7 +28,7 @@ interface Menu {
   description: string
   introduction?: string
   footer?: string
-  sections?: MenuSection[]
+  sections?: Connection<Section>
 }
 
 interface UseMenuResponse {
@@ -37,12 +38,12 @@ interface UseMenuResponse {
 }
 
 interface UseMenuQueryResponse {
-  menu: Menu
+  menuById: Menu
 }
 
 const MENUS_QUERY = gql`
   query GetMenu($id: ID!) {
-    menu(id: $id) {
+    menuById(id: $id) {
       id
       name
       description
@@ -50,18 +51,46 @@ const MENUS_QUERY = gql`
       footer
       photo
       sections {
-        id
-        name
-        description
-        introduction
-        footer
-        photo
-        order
-        items {
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
+        edges {
+          cursor
+          node {
+            id
+          }
+        }
+        nodes {
           id
           name
           description
+          introduction
+          footer
           photo
+          displayOrder
+          items {
+            pageInfo {
+              hasNextPage
+              hasPreviousPage
+              startCursor
+              endCursor
+            }
+            edges {
+              cursor
+              node {
+                id
+              }
+            }
+            nodes {
+              id
+              name
+              description
+              photo
+            }
+          }
         }
       }
     }
@@ -82,7 +111,7 @@ export function useMenu(id: string): UseMenuResponse {
   }
 
   return {
-    menu: data?.menu,
+    menu: data?.menuById,
     error,
     loading,
   }

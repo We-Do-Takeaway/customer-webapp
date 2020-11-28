@@ -28,7 +28,7 @@ export const MenuPage: React.FC = () => {
       {loading && <p>Loading...</p>}
       {error && <p>{error?.message}</p>}
       <header>{menu && <MenuDetailCard menu={menu} />}</header>
-      {menu && menu.sections && <SectionList sections={menu.sections} />}
+      {menu && menu.sections && <SectionList sections={menu.sections.nodes} />}
     </HeaderContent>
   )
 }

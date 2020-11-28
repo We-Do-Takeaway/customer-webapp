@@ -2,31 +2,34 @@ import React from 'react'
 import { ApolloProvider } from '@apollo/client'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import { AuthClientTokens } from '@react-keycloak/core/lib/types'
+import { ReactKeycloakProvider } from '@react-keycloak/web'
+
+import { keycloak, LogoutPage } from './auth'
 
 import { client } from './graphql'
-import {
-  HomePage,
-  LoginPage,
-  LogoutPage,
-  MenuPage,
-  UnauthorisedPage,
-} from './pages'
-import { ProtectedRoute, UserProvider } from './auth'
+import { HomePage, MenuPage } from './pages'
+
+const tokenLogger = (tokens: AuthClientTokens) => {
+  const token = tokens.token
+
+  if (token) {
+    localStorage.setItem('token', token)
+  }
+}
 
 const App: React.FC = () => (
-  <UserProvider>
+  <ReactKeycloakProvider authClient={keycloak} onTokens={tokenLogger}>
     <ApolloProvider client={client}>
       <CssBaseline />
       <Router>
-        <ProtectedRoute exact path="/" component={HomePage} />
-        <ProtectedRoute exact path="/home" component={HomePage} />
-        <ProtectedRoute exact path="/menu/:menuId" component={MenuPage} />
-        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/" component={HomePage} />
+        <Route exact path="/home" component={HomePage} />
+        <Route exact path="/menu/:menuId" component={MenuPage} />
         <Route exact path="/logout" component={LogoutPage} />
-        <Route exact path="/unauthorised" component={UnauthorisedPage} />
       </Router>
     </ApolloProvider>
-  </UserProvider>
+  </ReactKeycloakProvider>
 )
 
 export default App

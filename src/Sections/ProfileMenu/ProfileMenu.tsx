@@ -1,5 +1,3 @@
-import React, { KeyboardEvent, useContext } from 'react'
-
 import Button from '@material-ui/core/Button'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Grow from '@material-ui/core/Grow'
@@ -8,7 +6,9 @@ import Popper from '@material-ui/core/Popper'
 import MenuItem from '@material-ui/core/MenuItem'
 import MenuList from '@material-ui/core/MenuList'
 import { makeStyles } from '@material-ui/core/styles'
-import { UserContext } from '../../auth'
+import { useKeycloak } from '@react-keycloak/web'
+import { KeycloakProfile, KeycloakTokenParsed } from 'keycloak-js'
+import React, { KeyboardEvent } from 'react'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,11 +19,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+type AllParsed = KeycloakTokenParsed & KeycloakProfile
+
 export const ProfileMenu = () => {
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLButtonElement>(null)
-  const { logout, user } = useContext(UserContext)
+
+  const { keycloak } = useKeycloak()
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen)
@@ -49,8 +52,9 @@ export const ProfileMenu = () => {
   }
 
   function onLogout() {
-    logout()
+    keycloak.logout()
   }
+
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(open)
   React.useEffect(() => {
@@ -60,6 +64,12 @@ export const ProfileMenu = () => {
 
     prevOpen.current = open
   }, [open])
+
+  if (!keycloak?.authenticated) {
+    return null
+  }
+
+  const { email } = keycloak.tokenParsed as AllParsed
 
   return (
     <div className={classes.root}>
@@ -72,7 +82,7 @@ export const ProfileMenu = () => {
           variant="outlined"
           data-testid="profile-menu__user-email"
         >
-          {user?.email}
+          {email}
         </Button>
         <Popper
           open={open}
