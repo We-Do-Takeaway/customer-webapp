@@ -22,7 +22,7 @@ interface UseMenusQueryResponse {
 }
 
 const MENUS_QUERY = gql`
-  query {
+  query Menus {
     menus {
       pageInfo {
         hasNextPage
