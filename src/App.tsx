@@ -6,7 +6,7 @@ import { AuthClientTokens } from '@react-keycloak/core/lib/types'
 import { ReactKeycloakProvider } from '@react-keycloak/web'
 
 import { keycloak, LogoutPage } from './auth'
-
+import { BasketProvider } from './contexts'
 import { client } from './graphql'
 import { HomePage, MenuPage } from './pages'
 
@@ -15,21 +15,25 @@ const tokenLogger = (tokens: AuthClientTokens) => {
 
   if (token) {
     localStorage.setItem('token', token)
+  } else {
+    localStorage.removeItem('token')
   }
 }
 
 const App: React.FC = () => (
-  <ReactKeycloakProvider authClient={keycloak} onTokens={tokenLogger}>
-    <ApolloProvider client={client}>
-      <CssBaseline />
-      <Router>
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/home" component={HomePage} />
-        <Route exact path="/menu/:menuId" component={MenuPage} />
-        <Route exact path="/logout" component={LogoutPage} />
-      </Router>
-    </ApolloProvider>
-  </ReactKeycloakProvider>
+  <ApolloProvider client={client}>
+    <ReactKeycloakProvider authClient={keycloak} onTokens={tokenLogger}>
+      <BasketProvider>
+        <CssBaseline />
+        <Router>
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/home" component={HomePage} />
+          <Route exact path="/menu/:menuId" component={MenuPage} />
+          <Route exact path="/logout" component={LogoutPage} />
+        </Router>
+      </BasketProvider>
+    </ReactKeycloakProvider>
+  </ApolloProvider>
 )
 
 export default App

@@ -1,3 +1,4 @@
+export * from './BasketIndicator'
 export * from './ItemCard'
 export * from './MenuDetailCard'
 export * from './MenuSummaryCard'

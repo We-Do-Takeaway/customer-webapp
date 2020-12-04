@@ -2,12 +2,13 @@ import React, { ReactElement } from 'react'
 
 import AppBar from '@material-ui/core/AppBar'
 import Link from '@material-ui/core/Link'
-import Toolbar from '@material-ui/core/Toolbar'
-import { makeStyles } from '@material-ui/core/styles'
 import { Breadcrumbs } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import Toolbar from '@material-ui/core/Toolbar'
 import { useKeycloak } from '@react-keycloak/web'
 import { Link as RouterLink } from 'react-router-dom'
 
+import { BasketIndicator } from '../components'
 import { ProfileLoggedOut, ProfileMenu } from '../Sections'
 
 const useStyles = makeStyles((theme) => ({
@@ -66,7 +67,7 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
         elevation={0}
         className={classes.appBar}
       >
-        <Toolbar className={classes.toolbar}>
+        <Toolbar data-testid="header-toolbar" className={classes.toolbar}>
           <Link
             data-testid="service-name"
             className={classes.toolbarTitle}
@@ -106,6 +107,7 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
               Support
             </Link>
           </nav>
+          <BasketIndicator />
           {keycloak.authenticated && <ProfileMenu />}
           {!keycloak.authenticated && <ProfileLoggedOut />}
         </Toolbar>
