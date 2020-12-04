@@ -15,6 +15,10 @@ const httpLink = createHttpLink({
 const authLink = setContext((_: GraphQLRequest, { headers }) => {
   const token = localStorage.getItem('token')
 
+  if (!token) {
+    return { headers }
+  }
+
   return {
     headers: {
       ...headers,
