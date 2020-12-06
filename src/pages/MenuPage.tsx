@@ -3,7 +3,7 @@ import React from 'react'
 import { Link as RouterLink, useParams } from 'react-router-dom'
 
 import { MenuDetailCard } from '../components'
-import { useMenu } from '../graphql/hooks'
+import { useMenu } from '../graphql'
 import { HeaderContent } from '../layouts'
 import { SectionList } from '../Sections'
 
