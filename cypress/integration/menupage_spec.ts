@@ -3,7 +3,7 @@ const sectionSel = (sectionNumber: number) =>
 const sectionItemSel = (sectionNumber: number, itemNumber: number) =>
   `[data-testid="section-list-section"]:nth-child(${sectionNumber}) [data-testid="section-items-item"]:nth-child(${itemNumber})`
 
-context('Menu page', () => {
+describe('Menu page', () => {
   before(() => {
     cy.visit('/menu/600dca30-c6e2-4035-ad15-783c122d6ea1')
   })
@@ -26,105 +26,103 @@ context('Menu page', () => {
     cy.get('[data-testid="section-list-section"]').should('have.length', 2)
   })
 
-  describe('Sections', () => {
-    describe('Main menu', () => {
-      it('show the main section title and description first', () => {
-        cy.get(sectionSel(1)).within(() => {
-          cy.get('[data-testid="section-title"]').should('contain', 'Main')
-          cy.get('[data-testid="section-description"]').should(
-            'contain',
-            'Stuff to fill you up'
-          )
-        })
-      })
-
-      it('has one item in the main section', () => {
-        cy.get(`${sectionSel(1)} [data-testid="item-card"]`).should(
-          'have.length',
-          1
+  describe('Main menu', () => {
+    it('show the main section title and description first', () => {
+      cy.get(sectionSel(1)).within(() => {
+        cy.get('[data-testid="section-title"]').should('contain', 'Main')
+        cy.get('[data-testid="section-description"]').should(
+          'contain',
+          'Stuff to fill you up'
         )
-      })
-
-      it('first main section item is a bowl of sausages', () => {
-        cy.get(sectionItemSel(1, 1)).within(() => {
-          cy.get('[data-testid="item-card-title"]').should(
-            'contain',
-            'Plate of sausages'
-          )
-          cy.get('[data-testid="item-card-description"]').should(
-            'contain',
-            'Big bowl of sausages'
-          )
-
-          cy.get('[data-testid="item-card-image"]')
-            .should('have.css', 'background-image')
-            .and(
-              'contain',
-              'url("https://www.wedotakeaway.com/images/sausages.jpg")'
-            )
-        })
       })
     })
 
-    describe('Desert', () => {
-      it('show the desert section title and description second', () => {
-        cy.get(sectionSel(2)).within(() => {
-          cy.get('[data-testid="section-title"]').should('contain', 'Desert')
+    it('has one item in the main section', () => {
+      cy.get(`${sectionSel(1)} [data-testid="item-card"]`).should(
+        'have.length',
+        1
+      )
+    })
 
-          cy.get('[data-testid="section-description"]').should(
+    it('first main section item is a bowl of sausages', () => {
+      cy.get(sectionItemSel(1, 1)).within(() => {
+        cy.get('[data-testid="item-card-title"]').should(
+          'contain',
+          'Plate of sausages'
+        )
+        cy.get('[data-testid="item-card-description"]').should(
+          'contain',
+          'Big bowl of sausages'
+        )
+
+        cy.get('[data-testid="item-card-image"]')
+          .should('have.css', 'background-image')
+          .and(
             'contain',
-            'The best stuff'
+            'url("https://www.wedotakeaway.com/images/sausages.jpg")'
           )
-        })
       })
+    })
+  })
 
-      it('has 2 items in the desert section', () => {
-        cy.get(`${sectionSel(2)} [data-testid="item-card"]`).should(
-          'have.length',
-          2
+  describe('Desert', () => {
+    it('show the desert section title and description second', () => {
+      cy.get(sectionSel(2)).within(() => {
+        cy.get('[data-testid="section-title"]').should('contain', 'Desert')
+
+        cy.get('[data-testid="section-description"]').should(
+          'contain',
+          'The best stuff'
         )
       })
+    })
 
-      it('1st  desert item is a bowl of cherries', () => {
-        cy.get(sectionItemSel(2, 1)).within(() => {
-          cy.get('[data-testid="item-card-title"]').should(
+    it('has 2 items in the desert section', () => {
+      cy.get(`${sectionSel(2)} [data-testid="item-card"]`).should(
+        'have.length',
+        2
+      )
+    })
+
+    it('1st  desert item is a bowl of cherries', () => {
+      cy.get(sectionItemSel(2, 1)).within(() => {
+        cy.get('[data-testid="item-card-title"]').should(
+          'contain',
+          'Bowl of cherries'
+        )
+
+        cy.get('[data-testid="item-card-description"]').should(
+          'contain',
+          'Big bowl of cherries'
+        )
+
+        cy.get('[data-testid="item-card-image"]')
+          .should('have.css', 'background-image')
+          .and(
             'contain',
-            'Bowl of cherries'
+            'url("https://www.wedotakeaway.com/images/cherries.jpg")'
           )
-
-          cy.get('[data-testid="item-card-description"]').should(
-            'contain',
-            'Big bowl of cherries'
-          )
-
-          cy.get('[data-testid="item-card-image"]')
-            .should('have.css', 'background-image')
-            .and(
-              'contain',
-              'url("https://www.wedotakeaway.com/images/cherries.jpg")'
-            )
-        })
       })
+    })
 
-      it('2nd desert item is Chocolate ice-cream surprise', () => {
-        cy.get(sectionItemSel(2, 2)).within(() => {
-          cy.get('[data-testid="item-card-title"]').should(
+    it('2nd desert item is Chocolate ice-cream surprise', () => {
+      cy.get(sectionItemSel(2, 2)).within(() => {
+        cy.get('[data-testid="item-card-title"]').should(
+          'contain',
+          'Chocolate ice-cream surprise'
+        )
+
+        cy.get('[data-testid="item-card-description"]').should(
+          'contain',
+          'An amazing mixture of chocolate and cherries'
+        )
+
+        cy.get('[data-testid="item-card-image"]')
+          .should('have.css', 'background-image')
+          .and(
             'contain',
-            'Chocolate ice-cream surprise'
+            'url("https://www.wedotakeaway.com/images/choc-ice-cream.webp")'
           )
-
-          cy.get('[data-testid="item-card-description"]').should(
-            'contain',
-            'An amazing mixture of chocolate and cherries'
-          )
-
-          cy.get('[data-testid="item-card-image"]')
-            .should('have.css', 'background-image')
-            .and(
-              'contain',
-              'url("https://www.wedotakeaway.com/images/choc-ice-cream.webp")'
-            )
-        })
       })
     })
   })

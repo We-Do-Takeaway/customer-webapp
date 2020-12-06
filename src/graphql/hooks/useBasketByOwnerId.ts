@@ -1,17 +1,5 @@
 import { ApolloError, gql, useQuery } from '@apollo/client'
-
-interface Item {
-  id: string
-  name: string
-  quantity: number
-}
-
-export interface Basket {
-  id: string
-  ownerId: string
-  basketType: 'CUSTOMER' | 'ANONYMOUS'
-  items: Item[]
-}
+import { Basket } from '../types'
 
 export interface UseBasketByOwnerIdResponse {
   loading?: boolean
