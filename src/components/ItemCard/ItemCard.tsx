@@ -5,7 +5,8 @@ import CardMedia from '@material-ui/core/CardMedia'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 
-import { Item } from '../graphql/hooks/useMenu'
+import { Item } from '../../graphql'
+import { AddItemSection } from './AddItemSection'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +42,6 @@ interface ItemCardProps {
 
 export const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
   const classes = useStyles()
-
   return (
     <Card className={classes.root} data-testid="item-card" data-id={item.id}>
       <CardMedia
@@ -51,6 +51,7 @@ export const ItemCard: React.FC<ItemCardProps> = ({ item }) => {
         data-testid="item-card-image"
       />
       <CardContent>
+        <AddItemSection itemId={item.id} />
         <Typography
           className={classes.title}
           gutterBottom
