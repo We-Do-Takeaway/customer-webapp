@@ -4,6 +4,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import React, { useContext } from 'react'
 
 import { BasketContext } from '../../contexts'
+import { BasketItem } from '../../graphql/types/Item'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,11 +12,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const basketCountReducer = (accumulator: number, { quantity }: BasketItem) =>
+  accumulator + quantity
+
 export const BasketIndicator = () => {
   const classNames = useStyles()
   const { basket } = useContext(BasketContext)
-  const isActive = !!(basket && basket.items.length)
-  const itemCount = basket?.items?.length || 0
+  const itemCount =
+    basket && basket?.items?.length > 0
+      ? basket.items.reduce(basketCountReducer, 0)
+      : 0
+  const isActive = itemCount > 0
 
   return (
     <div className={classNames.root} data-testid="basket-indicator">
