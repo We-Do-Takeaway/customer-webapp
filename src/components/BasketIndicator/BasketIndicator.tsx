@@ -2,6 +2,7 @@ import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import React, { useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import { BasketContext } from '../../contexts'
 import { BasketItem } from '../../graphql/types/Item'
@@ -18,15 +19,20 @@ const basketCountReducer = (accumulator: number, { quantity }: BasketItem) =>
 export const BasketIndicator = () => {
   const classNames = useStyles()
   const { basket } = useContext(BasketContext)
+  const history = useHistory()
   const itemCount =
     basket && basket?.items?.length > 0
       ? basket.items.reduce(basketCountReducer, 0)
       : 0
   const isActive = itemCount > 0
 
+  const onClick = () => {
+    history.push('/basket')
+  }
+
   return (
     <div className={classNames.root} data-testid="basket-indicator">
-      <Button color={isActive ? 'primary' : 'default'}>
+      <Button onClick={onClick} color={isActive ? 'primary' : 'default'}>
         <ShoppingCartIcon />
         {isActive && (
           <span data-testid="basket-indicator-count">{itemCount}</span>
