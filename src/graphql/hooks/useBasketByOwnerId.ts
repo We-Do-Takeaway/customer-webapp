@@ -20,6 +20,7 @@ const BASKET_BY_OWNER_ID_QUERY = gql`
       items {
         id
         name
+        photo
         quantity
       }
     }

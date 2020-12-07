@@ -8,7 +8,7 @@ import { ReactKeycloakProvider } from '@react-keycloak/web'
 import { keycloak, LogoutPage } from './auth'
 import { BasketProvider } from './contexts'
 import { client } from './graphql'
-import { HomePage, MenuPage } from './pages'
+import { BasketPage, HomePage, MenuPage } from './pages'
 
 const tokenLogger = (tokens: AuthClientTokens) => {
   const token = tokens.token
@@ -29,6 +29,7 @@ const App: React.FC = () => (
           <Route exact path="/" component={HomePage} />
           <Route exact path="/home" component={HomePage} />
           <Route exact path="/menu/:menuId" component={MenuPage} />
+          <Route exact path="/basket" component={BasketPage} />
           <Route exact path="/logout" component={LogoutPage} />
         </Router>
       </BasketProvider>

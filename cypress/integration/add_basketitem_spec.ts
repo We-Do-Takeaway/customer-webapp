@@ -1,7 +1,7 @@
-const firstSection = '[data-testid="section-list-section"]:first-child'
-const firstItem = '[data-testid="section-items-item"]:first-child'
-
 describe('Add Basket Item', () => {
+  const firstSection = '[data-testid="section-list-section"]:first-child'
+  const firstItem = '[data-testid="section-items-item"]:first-child'
+
   context('When viewing the menu', () => {
     beforeEach(() => {
       // Reset basket and owner

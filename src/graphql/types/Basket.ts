@@ -5,6 +5,7 @@ export interface Basket {
   items: {
     id: string
     name: string
+    photo?: string
     quantity: number
   }[]
 }
