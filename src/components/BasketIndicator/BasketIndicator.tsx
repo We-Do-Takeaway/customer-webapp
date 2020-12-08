@@ -5,7 +5,7 @@ import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { BasketContext } from '../../contexts'
-import { BasketItem } from '../../graphql/types/Item'
+import { BasketItem } from '../../graphql'
 
 const useStyles = makeStyles((theme) => ({
   root: {

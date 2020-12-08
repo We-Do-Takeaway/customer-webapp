@@ -1,20 +1,21 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import {
   Backdrop,
   CircularProgress,
   createStyles,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Snackbar,
   Theme,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { BasketContext } from '../../contexts'
+import {
+  BasketItem,
+  BasketItemDeleteInput,
+  useRemoveItemFromBasket,
+} from '../../graphql'
+import { DeleteConfirmationDialog } from './DeleteConfirmationDialog'
+import { BasketItemsTable } from './BasketItemsTable'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,25 +23,50 @@ const useStyles = makeStyles((theme: Theme) =>
       zIndex: theme.zIndex.drawer + 1,
       color: '#fff',
     },
-    table: {
-      maxWidth: 800,
-    },
-    img: {
-      maxWidth: 50,
-    },
   })
 )
 
 export const BasketPageContent: React.FC = () => {
   const { basket, error, loading } = useContext(BasketContext)
-  const classes = useStyles()
+  const [removeItemFromBasket] = useRemoveItemFromBasket()
+  const [showDone, shouldShowDone] = useState(false)
+  const [deleteConfirmationItem, confirmDeleteItem] = useState<
+    BasketItem | undefined
+  >()
 
-  const hasItems = basket?.items?.length
+  const classes = useStyles()
+  const hasItems = basket?.items && basket.items.length > 0
+
+  const onRemove = (item: BasketItem) => {
+    confirmDeleteItem(item)
+  }
+
+  const onCancelItemDelete = () => {
+    confirmDeleteItem(undefined)
+  }
+
+  const onConfirmItemDelete = async (item: BasketItem) => {
+    if (!basket) return
+
+    confirmDeleteItem(undefined)
+
+    const variables: BasketItemDeleteInput = {
+      input: {
+        basketId: basket.id,
+        itemId: item.id,
+      },
+    }
+
+    await removeItemFromBasket({
+      variables,
+    })
+
+    shouldShowDone(true)
+  }
 
   return (
     <div data-testid="basket-page">
       <h1 data-testid="basket-page-title">Basket items</h1>
-
       {loading && (
         <Backdrop
           open
@@ -50,51 +76,30 @@ export const BasketPageContent: React.FC = () => {
           <CircularProgress color="inherit" />
         </Backdrop>
       )}
-
       {!loading && error && (
         <p data-testid="basket-page-error">Error: {error.message}</p>
       )}
-
       {!loading && !hasItems && (
         <p data-testid="basket-page-empty">Your basket is currently empty</p>
       )}
 
-      {!loading && hasItems && (
-        <TableContainer className={classes.table} component={Paper}>
-          <Table
-            aria-label="Basket items table"
-            data-testid="basket-page-item-table"
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell component="th" width="50">
-                  &nbsp;
-                </TableCell>
-                <TableCell component="th">Name</TableCell>
-                <TableCell component="th" align="right">
-                  Quantity
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {basket?.items.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>
-                    {item?.photo && (
-                      <img
-                        src={item.photo}
-                        alt={item.name}
-                        className={classes.img}
-                      />
-                    )}
-                  </TableCell>
-                  <TableCell>{item.name}</TableCell>
-                  <TableCell align="right">{item.quantity}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+      {hasItems && (
+        <BasketItemsTable items={basket?.items || []} onRemove={onRemove} />
+      )}
+
+      <Snackbar
+        data-testid="remove-notification"
+        autoHideDuration={6000}
+        message="Removed item from basket"
+        onClose={() => shouldShowDone(false)}
+        open={showDone}
+      />
+      {deleteConfirmationItem && (
+        <DeleteConfirmationDialog
+          item={deleteConfirmationItem}
+          onCancel={onCancelItemDelete}
+          onConfirm={onConfirmItemDelete}
+        />
       )}
     </div>
   )

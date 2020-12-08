@@ -1,5 +1,6 @@
 import React from 'react'
 import { ApolloError } from '@apollo/client'
+import { MockedProvider } from '@apollo/client/testing'
 import '@testing-library/jest-dom/extend-expect'
 import { render, RenderResult } from '@testing-library/react'
 
@@ -17,9 +18,11 @@ describe('Basket Page', () => {
       }
 
       wrapper = render(
-        <BasketContext.Provider value={value}>
-          <BasketPageContent />
-        </BasketContext.Provider>
+        <MockedProvider addTypename={false}>
+          <BasketContext.Provider value={value}>
+            <BasketPageContent />
+          </BasketContext.Provider>
+        </MockedProvider>
       )
     })
 
@@ -68,9 +71,11 @@ describe('Basket Page', () => {
       }
 
       wrapper = render(
-        <BasketContext.Provider value={value}>
-          <BasketPageContent />
-        </BasketContext.Provider>
+        <MockedProvider addTypename={false}>
+          <BasketContext.Provider value={value}>
+            <BasketPageContent />
+          </BasketContext.Provider>
+        </MockedProvider>
       )
     })
 
@@ -145,9 +150,11 @@ describe('Basket Page', () => {
       }
 
       wrapper = render(
-        <BasketContext.Provider value={value}>
-          <BasketPageContent />
-        </BasketContext.Provider>
+        <MockedProvider addTypename={false}>
+          <BasketContext.Provider value={value}>
+            <BasketPageContent />
+          </BasketContext.Provider>
+        </MockedProvider>
       )
     })
 
@@ -186,9 +193,11 @@ describe('Basket Page', () => {
       }
 
       wrapper = render(
-        <BasketContext.Provider value={value}>
-          <BasketPageContent />
-        </BasketContext.Provider>
+        <MockedProvider addTypename={false}>
+          <BasketContext.Provider value={value}>
+            <BasketPageContent />
+          </BasketContext.Provider>
+        </MockedProvider>
       )
     })
 
