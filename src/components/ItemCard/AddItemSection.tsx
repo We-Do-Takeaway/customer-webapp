@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Snackbar, Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { BasketContext } from '../../contexts'
 import { BasketItemInput, useAddItemToBasket } from '../../graphql'
 import { useCounter } from '../../hooks'
+import { getOwnerId } from '../../utils'
 
 const useStyles = makeStyles<Theme, { loading: boolean }>((theme) => ({
   root: {
@@ -22,13 +22,11 @@ export const AddItemSection: React.FC<{ itemId: string }> = ({ itemId }) => {
     min: 1,
     max: 20,
   })
-  const { basket } = useContext(BasketContext)
+  const ownerId = getOwnerId()
   const [addItemToBasket, { loading, error, data }] = useAddItemToBasket()
   const [showConfirmation, shouldShowConfirmation] = useState(false)
 
   const classes = useStyles({ loading })
-
-  if (!basket) return null
 
   const onAddItemToBasket = async () => {
     // If we are waiting for query to complete, don't fire off another one (stop double click and spam)
@@ -36,7 +34,7 @@ export const AddItemSection: React.FC<{ itemId: string }> = ({ itemId }) => {
 
     const variables: BasketItemInput = {
       input: {
-        basketId: basket.id,
+        ownerId,
         itemId,
         quantity,
       },

@@ -3,7 +3,7 @@ import { Basket, UserError } from '../types'
 
 export interface BasketItemInput {
   input: {
-    basketId: string
+    ownerId: string
     itemId: string
     quantity: number
   }
