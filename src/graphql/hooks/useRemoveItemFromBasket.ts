@@ -3,7 +3,7 @@ import { Basket, UserError } from '../types'
 
 export interface BasketItemDeleteInput {
   input: {
-    basketId: string
+    ownerId: string
     itemId: string
   }
 }

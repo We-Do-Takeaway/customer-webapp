@@ -1,6 +1,6 @@
 const clearBasketQuery = `
-  mutation ClearBasket($id: ID!) {
-    clearBasket(id: $id) {
+  mutation ClearBasketByOwnerId($id: ID!) {
+    clearBasketByOwnerId(id: $id) {
       basket {
         id
       }
@@ -12,45 +12,22 @@ const clearBasketQuery = `
   }
 `
 
-const basketByOwnerQuery = `
-  query BasketByOwner($id: ID!) {
-    basketByOwnerId(id: $id) {
-      id
-    }
-  }
-`
-
 Cypress.Commands.add('clearBasket', async (ownerId: string) => {
   // Get the owner
   const owner = window.localStorage.getItem('owner')
+  const url = Cypress.env('API_URL')
 
   if (!owner) return
-
-  const url = Cypress.env('API_URL')
 
   cy.request({
     method: 'POST',
     url,
     body: {
-      operationName: 'BasketByOwner',
-      query: ``,
+      operationName: 'ClearBasketByOwnerId',
+      query: clearBasketQuery,
       variables: {
         id: ownerId,
       },
     },
   })
-    .its('body.data.basketByOwnerId.id')
-    .then((basketId) => {
-      cy.request({
-        method: 'POST',
-        url,
-        body: {
-          operationName: 'ClearBasket',
-          query: clearBasketQuery,
-          variables: {
-            id: basketId,
-          },
-        },
-      })
-    })
 })

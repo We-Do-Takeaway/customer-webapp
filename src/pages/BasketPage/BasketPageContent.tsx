@@ -16,6 +16,7 @@ import {
 } from '../../graphql'
 import { DeleteConfirmationDialog } from './DeleteConfirmationDialog'
 import { BasketItemsTable } from './BasketItemsTable'
+import { getOwnerId } from '../../utils'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,13 +47,13 @@ export const BasketPageContent: React.FC = () => {
   }
 
   const onConfirmItemDelete = async (item: BasketItem) => {
-    if (!basket) return
-
     confirmDeleteItem(undefined)
+
+    const ownerId = getOwnerId()
 
     const variables: BasketItemDeleteInput = {
       input: {
-        basketId: basket.id,
+        ownerId,
         itemId: item.id,
       },
     }
