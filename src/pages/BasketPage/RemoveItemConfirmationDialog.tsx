@@ -10,28 +10,28 @@ import React from 'react'
 
 import { BasketItem } from '../../graphql'
 
-export const DeleteConfirmationDialog: React.FC<{
+export const RemoveItemConfirmationDialog: React.FC<{
   item: BasketItem
   onCancel: () => void
   onConfirm: (item: BasketItem) => Promise<void>
 }> = ({ item, onCancel, onConfirm }) => (
   <Dialog
-    aria-labelledby="delete-item-alert-dialog-title"
-    aria-describedby="delete-item-alert-dialog-description"
-    data-testid="delete-basket-item-confirmation"
+    aria-labelledby="remove-item-alert-dialog-title"
+    aria-describedby="remove-item-alert-dialog-description"
+    data-testid="remove-basket-item-confirmation"
     onClose={onCancel}
     open
   >
     <DialogTitle
-      id="delete-item-dialog-title"
-      data-testid="delete-item-dialog-title"
+      id="remove-item-dialog-title"
+      data-testid="remove-item-dialog-title"
     >
-      Delete item from basket
+      Remove item from basket
     </DialogTitle>
     <DialogContent>
       <DialogContentText
-        id="delete-item-dialog-description"
-        data-testid="delete-item-dialog-description"
+        id="remove-item-dialog-description"
+        data-testid="remove-item-dialog-description"
       >
         Are you sure you want to remove &lsquo;{item.name}&rsquo; item from the
         basket?
@@ -41,14 +41,14 @@ export const DeleteConfirmationDialog: React.FC<{
       <Button
         onClick={onCancel}
         color="default"
-        data-testid="delete-item-dialog-cancel"
+        data-testid="remove-item-dialog-cancel"
       >
         No
       </Button>
       <Button
         onClick={() => onConfirm(item)}
         color="secondary"
-        data-testid="delete-item-dialog-confirm"
+        data-testid="remove-item-dialog-confirm"
         autoFocus
       >
         Yes

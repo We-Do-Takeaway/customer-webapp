@@ -28,54 +28,52 @@ describe('Basket items page', () => {
 
       it('display the basket items', () => {
         cy.get('[data-testid="basket-page-item-table"]').should('exist')
-        cy.get(
-          '[data-testid="basket-page-item-table"] tbody tr:first-child td:first-child img'
-        )
+        cy.get('[data-testid="image-600dca30-c6e2-4035-ad15-783c122d6ea4"]')
           .should('have.attr', 'src')
           .should('include', 'https://www.wedotakeaway.com/images/sausages.jpg')
 
         cy.get(
-          '[data-testid="basket-page-item-table"] tbody tr:first-child td:nth-child(2)'
+          '[data-testid="description-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
         ).contains('Plate of sausages')
 
         cy.get(
-          '[data-testid="basket-page-item-table"] tbody tr:first-child td:nth-child(3)'
+          '[data-testid="quantity-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
         ).contains('1')
       })
 
-      context('the user chooses to delete an item', () => {
+      context('the user chooses to remove an item', () => {
         beforeEach(() => {
           cy.get(
-            '[data-testid="basket-page-item-table"] tbody tr:first-child [data-testid="basket-page-remove-item"]'
+            '[data-testid="remove-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
           ).click()
         })
 
         it('display a confirmation dialog', () => {
-          cy.get('[data-testid="delete-basket-item-confirmation"]').should(
+          cy.get('[data-testid="remove-basket-item-confirmation"]').should(
             'exist'
           )
 
-          cy.get('[data-testid="delete-item-dialog-title"]').contains(
-            'Delete item from basket'
+          cy.get('[data-testid="remove-item-dialog-title"]').contains(
+            'Remove item from basket'
           )
 
-          cy.get('[data-testid="delete-item-dialog-description"]').contains(
+          cy.get('[data-testid="remove-item-dialog-description"]').contains(
             'Are you sure you want to remove ‘Plate of sausages’ item from the basket?'
           )
         })
 
         context('press No', () => {
           beforeEach(() => {
-            cy.get('[data-testid="delete-item-dialog-cancel"]').click()
+            cy.get('[data-testid="remove-item-dialog-cancel"]').click()
           })
 
           it('close the dialog', () => {
-            cy.get('[data-testid="delete-basket-item-confirmation"]').should(
+            cy.get('[data-testid="remove-basket-item-confirmation"]').should(
               'not.exist'
             )
           })
 
-          it('do not delete the item', () => {
+          it('do not remove the item', () => {
             cy.get('[data-testid="basket-page-item-table"]').should('exist')
             cy.get(
               '[data-testid="basket-page-item-table"] tbody tr:first-child td:first-child img'
@@ -90,17 +88,59 @@ describe('Basket items page', () => {
 
         context('press Yes', () => {
           beforeEach(() => {
-            cy.get('[data-testid="delete-item-dialog-confirm"]').click()
+            cy.get('[data-testid="remove-item-dialog-confirm"]').click()
           })
 
           it('close the dialog', () => {
-            cy.get('[data-testid="delete-basket-item-confirmation"]').should(
+            cy.get('[data-testid="remove-basket-item-confirmation"]').should(
               'not.exist'
             )
           })
 
-          it('delete the item', () => {
+          it('remove the item', () => {
             cy.get('[data-testid="basket-page-item-table"]').should('not.exist')
+          })
+        })
+      })
+
+      context('the user tries to reduce an item with quantity of 1', () => {
+        beforeEach(() => {
+          cy.get(
+            '[data-testid="decrease-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
+          ).click()
+        })
+
+        it('remain at 1', () => {
+          cy.get(
+            '[data-testid="quantity-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
+          ).contains('1')
+        })
+      })
+
+      context('the user increases qty from 1', () => {
+        beforeEach(() => {
+          cy.get(
+            '[data-testid="increase-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
+          ).click()
+        })
+
+        it('update the quantity to 2', () => {
+          cy.get(
+            '[data-testid="quantity-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
+          ).contains('2')
+        })
+
+        context('the user decreases qty from 2 back to 1', () => {
+          beforeEach(() => {
+            cy.get(
+              '[data-testid="decrease-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
+            ).click()
+          })
+
+          it('change to 1', () => {
+            cy.get(
+              '[data-testid="quantity-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
+            ).contains('1')
           })
         })
       })

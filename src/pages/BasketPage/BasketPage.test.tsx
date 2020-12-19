@@ -6,7 +6,7 @@ import { render, RenderResult } from '@testing-library/react'
 
 import { BasketContext } from '../../contexts'
 import { Basket } from '../../graphql'
-import { BasketPageContent } from './BasketPageContent'
+import { BasketPage } from './BasketPage'
 
 describe('Basket Page', () => {
   let wrapper: RenderResult
@@ -20,7 +20,7 @@ describe('Basket Page', () => {
       wrapper = render(
         <MockedProvider addTypename={false}>
           <BasketContext.Provider value={value}>
-            <BasketPageContent />
+            <BasketPage />
           </BasketContext.Provider>
         </MockedProvider>
       )
@@ -73,7 +73,7 @@ describe('Basket Page', () => {
       wrapper = render(
         <MockedProvider addTypename={false}>
           <BasketContext.Provider value={value}>
-            <BasketPageContent />
+            <BasketPage />
           </BasketContext.Provider>
         </MockedProvider>
       )
@@ -152,7 +152,7 @@ describe('Basket Page', () => {
       wrapper = render(
         <MockedProvider addTypename={false}>
           <BasketContext.Provider value={value}>
-            <BasketPageContent />
+            <BasketPage />
           </BasketContext.Provider>
         </MockedProvider>
       )
@@ -195,7 +195,7 @@ describe('Basket Page', () => {
       wrapper = render(
         <MockedProvider addTypename={false}>
           <BasketContext.Provider value={value}>
-            <BasketPageContent />
+            <BasketPage />
           </BasketContext.Provider>
         </MockedProvider>
       )
