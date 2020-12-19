@@ -1,16 +1,16 @@
 import { gql, useMutation } from '@apollo/client'
 import { Basket, BasketItemInput, UserError } from '../types'
 
-export interface AddItemToBasketMutationResponse {
+export interface UpdateBasketItemMutationResponse {
   addBasketItem: {
     basket: Basket
     errors: UserError[]
   }
 }
 
-const ADD_BASKET_ITEM_MUTATION = gql`
-  mutation AddBasketItem($input: BasketItemInput!) {
-    addBasketItem(input: $input) {
+const UPDATE_BASKET_ITEM_MUTATION = gql`
+  mutation UpdateBasketItem($input: BasketItemInput!) {
+    updateBasketItem(input: $input) {
       basket {
         id
         ownerId
@@ -28,7 +28,7 @@ const ADD_BASKET_ITEM_MUTATION = gql`
   }
 `
 
-export const useAddItemToBasket = () =>
-  useMutation<AddItemToBasketMutationResponse, BasketItemInput>(
-    ADD_BASKET_ITEM_MUTATION
+export const useUpdateBasketItem = () =>
+  useMutation<UpdateBasketItemMutationResponse, BasketItemInput>(
+    UPDATE_BASKET_ITEM_MUTATION
   )

@@ -1,4 +1,6 @@
 export * from './Basket'
 export * from './BasketItem'
+export * from './BasketItemDeleteInput'
+export * from './BasketItemInput'
 export * from './Connection'
 export * from './UserError'

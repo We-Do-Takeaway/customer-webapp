@@ -1,12 +1,5 @@
 import { gql, useMutation } from '@apollo/client'
-import { Basket, UserError } from '../types'
-
-export interface BasketItemDeleteInput {
-  input: {
-    ownerId: string
-    itemId: string
-  }
-}
+import { Basket, BasketItemDeleteInput, UserError } from '../types'
 
 export interface RemoveItemFromBasketMutationResponse {
   addBasketItem: {
@@ -16,7 +9,7 @@ export interface RemoveItemFromBasketMutationResponse {
 }
 
 const REMOVE_BASKET_ITEM_MUTATION = gql`
-  mutation AddBasketItem($input: BasketItemDeleteInput!) {
+  mutation RemoveBasketItem($input: BasketItemDeleteInput!) {
     removeBasketItem(input: $input) {
       basket {
         id
