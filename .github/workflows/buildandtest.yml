@@ -36,6 +36,7 @@ jobs:
           config: pageLoadTimeout=100000,baseUrl=http://localhost:3000
           record: true
         env:
+          CYPRESS_API_URL: http://www.wedotakeaway.com/graphql/
           CYPRESS_KEYCLOAK_CLIENT: ${{ secrets.CYPRESS_KEYCLOAK_CLIENT }}
           CYPRESS_KEYCLOAK_REALM: ${{ secrets.CYPRESS_KEYCLOAK_REALM }}
           CYPRESS_KEYCLOAK_URL: ${{ secrets.CYPRESS_KEYCLOAK_URL }}
