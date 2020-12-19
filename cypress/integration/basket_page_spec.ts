@@ -1,12 +1,15 @@
 describe('Basket items page', () => {
-  context('an item is added to the basket', () => {
-    beforeEach(() => {
-      const firstSection = '[data-testid="section-list-section"]:first-child'
-      const firstItem = '[data-testid="section-items-item"]:first-child'
+  const firstSection = '[data-testid="section-list-section"]:first-child'
+  const firstItem = '[data-testid="section-items-item"]:first-child'
 
-      // Reset basket and owner
-      cy.clearBasket()
-      cy.resetOwner()
+  beforeEach(() => {
+    // Reset basket and owner
+    cy.resetOwner()
+    cy.clearBasket()
+  })
+
+  context('a single item is added to the basket', () => {
+    beforeEach(() => {
       cy.visit('/menu/600dca30-c6e2-4035-ad15-783c122d6ea1')
 
       cy.get(
@@ -41,7 +44,7 @@ describe('Basket items page', () => {
         ).contains('1')
       })
 
-      context('the user chooses to remove an item', () => {
+      context('the user chooses to remove the item', () => {
         beforeEach(() => {
           cy.get(
             '[data-testid="remove-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
@@ -103,7 +106,7 @@ describe('Basket items page', () => {
         })
       })
 
-      context('the user tries to reduce an item with quantity of 1', () => {
+      context('the user tries to reduce the quantity', () => {
         beforeEach(() => {
           cy.get(
             '[data-testid="decrease-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
@@ -117,7 +120,7 @@ describe('Basket items page', () => {
         })
       })
 
-      context('the user increases qty from 1', () => {
+      context('the user tries to increase the quantity', () => {
         beforeEach(() => {
           cy.get(
             '[data-testid="increase-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
@@ -129,19 +132,45 @@ describe('Basket items page', () => {
             '[data-testid="quantity-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
           ).contains('2')
         })
+      })
+    })
+  })
 
-        context('the user decreases qty from 2 back to 1', () => {
-          beforeEach(() => {
-            cy.get(
-              '[data-testid="decrease-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
-            ).click()
-          })
+  context('two of an item are added to the basket', () => {
+    beforeEach(() => {
+      cy.visit('/menu/600dca30-c6e2-4035-ad15-783c122d6ea1')
 
-          it('change to 1', () => {
-            cy.get(
-              '[data-testid="quantity-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
-            ).contains('1')
-          })
+      cy.get(
+        `${firstSection} ${firstItem} [data-testid="add-to-basket-increase"]`
+      ).click()
+
+      cy.get(
+        `${firstSection} ${firstItem} [data-testid="add-to-basket-button"]`
+      ).click()
+    })
+
+    context('the user chooses to view the basket', () => {
+      beforeEach(() => {
+        cy.get('[data-testid="basket-indicator"] button').click()
+      })
+
+      it('display a quantity of 2', () => {
+        cy.get(
+          '[data-testid="quantity-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
+        ).contains('2')
+      })
+
+      context('the user tries to reduce the quantity', () => {
+        beforeEach(() => {
+          cy.get(
+            '[data-testid="decrease-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
+          ).click()
+        })
+
+        it('reduce to 1', () => {
+          cy.get(
+            '[data-testid="quantity-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
+          ).contains('1')
         })
       })
     })
