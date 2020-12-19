@@ -40,7 +40,7 @@ export const BasketItemRow: React.FC<{ item: BasketItem }> = ({ item }) => {
   const classes = useStyles({ loading })
 
   const onDecrease = async () => {
-    if (item.quantity < 2) return
+    if (quantity < 2) return
 
     const newQuantity = quantity - 1
     setQuantity(newQuantity)
