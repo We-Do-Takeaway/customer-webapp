@@ -12,7 +12,7 @@ const clearBasketQuery = `
   }
 `
 
-Cypress.Commands.add('clearBasket', async (ownerId: string) => {
+Cypress.Commands.add('clearBasket', (ownerId: string) => {
   // Get the owner
   const owner = window.localStorage.getItem('owner')
   const url = Cypress.env('API_URL')
