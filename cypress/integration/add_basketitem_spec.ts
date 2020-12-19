@@ -2,11 +2,14 @@ describe('Add Basket Item', () => {
   const firstSection = '[data-testid="section-list-section"]:first-child'
   const firstItem = '[data-testid="section-items-item"]:first-child'
 
+  beforeEach(() => {
+    // Reset basket and owner
+    cy.resetOwner()
+    cy.clearBasket()
+  })
+
   context('When viewing the menu', () => {
     beforeEach(() => {
-      // Reset basket and owner
-      cy.clearBasket()
-      cy.resetOwner()
       cy.visit('/menu/600dca30-c6e2-4035-ad15-783c122d6ea1')
     })
 
