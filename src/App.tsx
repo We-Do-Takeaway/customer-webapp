@@ -1,6 +1,6 @@
 import React from 'react'
 import { ApolloProvider } from '@apollo/client'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { AuthClientTokens } from '@react-keycloak/core/lib/types'
 import { ReactKeycloakProvider } from '@react-keycloak/web'
@@ -9,6 +9,8 @@ import { keycloak, LogoutPage } from './auth'
 import { BasketProvider } from './contexts'
 import { client } from './graphql'
 import { BasketPage, HomePage, MenuPage } from './pages'
+import { RouteWithLayout } from './utils'
+import { HeaderContent } from './layouts'
 
 const tokenLogger = (tokens: AuthClientTokens) => {
   const token = tokens.token
@@ -26,11 +28,36 @@ const App: React.FC = () => (
       <BasketProvider>
         <CssBaseline />
         <Router>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/home" component={HomePage} />
-          <Route exact path="/menu/:menuId" component={MenuPage} />
-          <Route exact path="/basket" component={BasketPage} />
-          <Route exact path="/logout" component={LogoutPage} />
+          <RouteWithLayout
+            exact
+            path="/"
+            layout={HeaderContent}
+            component={HomePage}
+          />
+          <RouteWithLayout
+            exact
+            path="/home"
+            layout={HeaderContent}
+            component={HomePage}
+          />
+          <RouteWithLayout
+            exact
+            path="/menu/:menuId"
+            layout={HeaderContent}
+            component={MenuPage}
+          />
+          <RouteWithLayout
+            exact
+            path="/basket"
+            layout={HeaderContent}
+            component={BasketPage}
+          />
+          <RouteWithLayout
+            exact
+            path="/logout"
+            layout={HeaderContent}
+            component={LogoutPage}
+          />
         </Router>
       </BasketProvider>
     </ReactKeycloakProvider>
