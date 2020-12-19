@@ -34,7 +34,7 @@ jobs:
           headless: true
           start: npm start
           config: pageLoadTimeout=100000,baseUrl=http://localhost:3000
-          record: true
+          record: false
         env:
           CYPRESS_API_URL: http://www.wedotakeaway.com/graphql/
           CYPRESS_KEYCLOAK_CLIENT: ${{ secrets.CYPRESS_KEYCLOAK_CLIENT }}
