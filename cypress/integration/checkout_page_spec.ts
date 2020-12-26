@@ -137,7 +137,77 @@ describe('Checkout page', () => {
         it('move to place order step', () => {
           cy.url().should('include', '/order/place-order')
         })
+
+        it('display the delivery details', () => {
+          cy.get('h2[data-testid="delivery-heading"]').contains(
+            'Delivery details'
+          )
+          cy.get('[data-testid="delivery-name"]').contains('Fred Smith')
+          cy.get('[data-testid="delivery-address"]').contains(
+            '10 The Street, South Place, Funvile, PP1 1LL'
+          )
+          cy.get('[data-testid="delivery-phone"]').contains('321123123')
+          cy.get('[data-testid="delivery-email"]').contains('fred@acme.corp')
+          cy.get('[data-testid="delivery-instructions"]').contains(
+            'By the door'
+          )
+        })
+
+        context('the user selects go back', () => {
+          beforeEach(() => {
+            cy.get('[data-testid="checkout-back-button"]').click()
+          })
+
+          it('send the user back to the contact details stage', () => {
+            cy.url().should('include', '/contact-details')
+          })
+        })
       }
     )
+
+    context('The user enters the minimum details', () => {
+      beforeEach(() => {
+        cy.get('input[name="name"]').type('Fred Smith')
+        cy.get('input[name="address1"]').type('10 The Street')
+        cy.get('input[name="town"]').type('Funvile')
+        cy.get('input[name="postcode"]').type('PP1 1LL')
+        cy.get('input[name="phone"]').type('321123123')
+
+        cy.get('[data-testid="checkout-submit-button"]').click()
+      })
+
+      it('move to place order step', () => {
+        cy.url().should('include', '/order/place-order')
+      })
+
+      it('display the delivery details', () => {
+        cy.get('h2[data-testid="delivery-heading"]').contains(
+          'Delivery details'
+        )
+        cy.get('[data-testid="delivery-name"]').contains('Fred Smith')
+        cy.get('[data-testid="delivery-address"]').contains(
+          '10 The Street, Funvile, PP1 1LL'
+        )
+        cy.get('[data-testid="delivery-phone"]').contains('321123123')
+      })
+
+      it('do not include the optional data', () => {
+        cy.get('[data-testid="delivery-address2"]').should('not.exist')
+        cy.get('[data-testid="delivery-email"]').should('not.exist')
+        cy.get('[data-testid="delivery-instructions-section"]').should(
+          'not.exist'
+        )
+      })
+    })
+
+    context('The user goes direct to the place order step', () => {
+      beforeEach(() => {
+        cy.visit('/order/place-order')
+      })
+
+      it('send the user back to the contact details stage', () => {
+        cy.url().should('include', '/contact-details')
+      })
+    })
   })
 })

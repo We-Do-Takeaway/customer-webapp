@@ -32,7 +32,7 @@ export const CheckoutAddressForm: React.FC<{
         data-testid="contact-details-title"
         className={classes.heading}
         variant="h5"
-        component="h2"
+        component="h1"
       >
         Deliver to
       </Typography>

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Route, Switch, useRouteMatch } from 'react-router-dom'
-import { Step, StepLabel, Stepper } from '@material-ui/core'
+import { Step, StepLabel, Stepper, Typography } from '@material-ui/core'
 
 import { BasketContext } from '../../contexts'
 import { HeaderContent } from '../../layouts'
@@ -8,6 +8,7 @@ import { Order } from '../../types'
 import { CheckoutContextProvider } from './CheckoutContext'
 import { ContactDetailsPage } from './ContactDetailsPage'
 import { PlaceOrderPage } from './PlaceOrderPage'
+import { useStyles } from './useStyles'
 
 const steps = [
   {
@@ -26,9 +27,10 @@ const steps = [
 
 export const OrderRoute: React.FC = () => {
   const { path } = useRouteMatch()
-  const currentPath = window.location.pathname
+  const classes = useStyles()
   const { basket, loading } = useContext(BasketContext)
 
+  const currentPath = window.location.pathname
   const currentStep = steps.findIndex((step) => currentPath.endsWith(step.url))
 
   if (loading || !basket) {
@@ -52,6 +54,9 @@ export const OrderRoute: React.FC = () => {
           </Stepper>
         }
       >
+        <Typography className={classes.heading} variant="h4" component="h1">
+          Checkout
+        </Typography>
         <Switch>
           <Route
             path={`${path}/contact-details`}
