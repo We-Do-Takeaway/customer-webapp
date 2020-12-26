@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles'
 
 const maxWidth = 800
-const innerMargin = 200
+const innerMargin = 100
 
 export const useStyles = makeStyles((theme) => ({
   backdrop: {
@@ -30,5 +30,14 @@ export const useStyles = makeStyles((theme) => ({
   paperContent: {
     maxWidth: maxWidth - innerMargin,
     margin: '0 auto',
+  },
+  split: {
+    display: 'flex',
+  },
+  splitCell: {
+    flexGrow: 1,
+  },
+  verticalSpaced: {
+    marginTop: theme.spacing(2),
   },
 }))

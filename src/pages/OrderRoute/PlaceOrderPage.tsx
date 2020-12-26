@@ -1,10 +1,11 @@
-import { Button, Typography } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { BasketItemsTable } from '../../Sections'
 import { CheckoutContext } from './CheckoutContext'
 import { useStyles } from './useStyles'
+import { ContactDetailsSummary } from './ContactDetailsSummary'
 
 export const PlaceOrderPage: React.FC = () => {
   const classes = useStyles()
@@ -21,16 +22,13 @@ export const PlaceOrderPage: React.FC = () => {
 
   return (
     <div data-testid="checkout-page">
-      <Typography className={classes.heading} variant="h5" component="h1">
-        Basket items
-      </Typography>
-
       <BasketItemsTable items={order.items} readOnly />
+      <ContactDetailsSummary />
 
       <div className={classes.buttonBar}>
         <Button
           color="default"
-          data-testid="checkout-cancel-button"
+          data-testid="checkout-back-button"
           type="button"
           variant="contained"
           onClick={() => history.goBack()}
