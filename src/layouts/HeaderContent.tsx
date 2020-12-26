@@ -46,15 +46,29 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 1024,
     width: '100%',
   },
+  sub: {
+    width: '100%',
+    padding: 0,
+    margin: 0,
+    backgroundColor: theme.palette.common.white,
+  },
+  subContent: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    maxWidth: 1024,
+    width: '100%',
+  },
 }))
 
 interface HeaderContentProps {
+  sub?: ReactElement | ReactElement[]
   breadcrumbs?: ReactElement | ReactElement[]
 }
 
 export const HeaderContent: React.FC<HeaderContentProps> = ({
   children,
   breadcrumbs,
+  sub,
 }) => {
   const classes = useStyles()
   const { keycloak } = useKeycloak()
@@ -112,6 +126,11 @@ export const HeaderContent: React.FC<HeaderContentProps> = ({
           {!keycloak.authenticated && <ProfileLoggedOut />}
         </Toolbar>
       </AppBar>
+      {sub && (
+        <div className={classes.sub}>
+          <div className={classes.subContent}>{sub}</div>
+        </div>
+      )}
       {breadcrumbs && (
         <Breadcrumbs
           className={classes.breadcrumbs}
