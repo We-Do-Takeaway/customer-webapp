@@ -1,6 +1,6 @@
 import React from 'react'
 import { ApolloProvider } from '@apollo/client'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { AuthClientTokens } from '@react-keycloak/core/lib/types'
 import { ReactKeycloakProvider } from '@react-keycloak/web'
@@ -8,7 +8,7 @@ import { ReactKeycloakProvider } from '@react-keycloak/web'
 import { keycloak, LogoutPage } from './auth'
 import { BasketProvider } from './contexts'
 import { client } from './graphql'
-import { BasketPage, HomePage, MenuPage } from './pages'
+import { BasketPage, HomePage, MenuPage, OrderRoute } from './pages'
 import { RouteWithLayout } from './utils'
 import { HeaderContent } from './layouts'
 
@@ -58,6 +58,7 @@ const App: React.FC = () => (
             layout={HeaderContent}
             component={LogoutPage}
           />
+          <Route path="/order" component={OrderRoute} />
         </Router>
       </BasketProvider>
     </ReactKeycloakProvider>
