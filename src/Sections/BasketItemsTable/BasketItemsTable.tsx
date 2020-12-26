@@ -14,16 +14,18 @@ import { makeStyles } from '@material-ui/core/styles'
 import { BasketItem } from '../../graphql'
 import { BasketItemRow } from './BasketItemRow'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
     maxWidth: 800,
+    marginBottom: theme.spacing(6),
   },
-})
+}))
 
 export const BasketItemsTable: React.FC<{
   items: BasketItem[]
-}> = ({ items }) => {
-  const classes = useStyles()
+  readOnly?: boolean
+}> = ({ items, readOnly = false }) => {
+  const classes = useStyles({ readOnly })
   const [showDone, shouldShowDone] = useState(false)
 
   return (
@@ -42,14 +44,16 @@ export const BasketItemsTable: React.FC<{
               <TableCell component="th" align="center" width="130">
                 Quantity
               </TableCell>
-              <TableCell component="th" width="80">
-                &nbsp;
-              </TableCell>
+              {!readOnly && (
+                <TableCell component="th" width="80">
+                  &nbsp;
+                </TableCell>
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
             {items.map((item) => (
-              <BasketItemRow key={item.id} item={item} />
+              <BasketItemRow key={item.id} item={item} readOnly={readOnly} />
             ))}
           </TableBody>
         </Table>

@@ -44,6 +44,10 @@ describe('Basket items page', () => {
         ).contains('1')
       })
 
+      it('let the user proceed to the checkout', () => {
+        cy.get('[data-testid="proceed-to-checkout"]').should('exist')
+      })
+
       context('the user chooses to remove the item', () => {
         beforeEach(() => {
           cy.get(
@@ -147,6 +151,31 @@ describe('Basket items page', () => {
           })
         })
       })
+
+      context('the user selects the option to checkout', () => {
+        beforeEach(() => {
+          cy.get('[data-testid="proceed-to-checkout"]').click()
+        })
+
+        it('take the user to the checkout page', () => {
+          cy.url().should('include', '/order/contact-details')
+        })
+      })
+    })
+  })
+
+  context('the basket is empty', () => {
+    beforeEach(() => {
+      cy.visit('/menu/600dca30-c6e2-4035-ad15-783c122d6ea1')
+      cy.get('[data-testid="basket-indicator"] button').click()
+    })
+
+    it('display a message to say the basket it empty', () => {
+      cy.get('[data-testid="basket-page-empty"]').should('exist')
+    })
+
+    it('does not display an option to proceed to checkout', () => {
+      cy.get('[data-testid="proceed-to-checkout"]').should('not.exist')
     })
   })
 })

@@ -1,24 +1,27 @@
 import React, { useContext } from 'react'
 import {
   Backdrop,
+  Button,
   CircularProgress,
-  createStyles,
   Theme,
+  Typography,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom'
 
 import { BasketContext } from '../../contexts'
 
-import { BasketItemsTable } from './BasketItemsTable'
+import { BasketItemsTable } from '../../Sections'
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: '#fff',
-    },
-  })
-)
+const useStyles = makeStyles((theme: Theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+  heading: {
+    margin: theme.spacing(2, 0),
+  },
+}))
 
 export const BasketPage: React.FC = () => {
   const { basket, error, loading } = useContext(BasketContext)
@@ -28,7 +31,14 @@ export const BasketPage: React.FC = () => {
 
   return (
     <div data-testid="basket-page">
-      <h1 data-testid="basket-page-title">Basket items</h1>
+      <Typography
+        className={classes.heading}
+        component="h1"
+        data-testid="basket-page-title"
+        variant="h5"
+      >
+        Basket items
+      </Typography>
       {loading && (
         <Backdrop
           open
@@ -45,7 +55,23 @@ export const BasketPage: React.FC = () => {
         <p data-testid="basket-page-empty">Your basket is currently empty</p>
       )}
 
-      {hasItems && <BasketItemsTable items={basket?.items || []} />}
+      {hasItems && (
+        <>
+          <BasketItemsTable items={basket?.items || []} />
+
+          <p>
+            <Button
+              color="primary"
+              component={Link}
+              data-testid="proceed-to-checkout"
+              to="/order/contact-details"
+              variant="contained"
+            >
+              Checkout
+            </Button>
+          </p>
+        </>
+      )}
     </div>
   )
 }

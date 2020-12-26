@@ -30,7 +30,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export const BasketItemRow: React.FC<{ item: BasketItem }> = ({ item }) => {
+export const BasketItemRow: React.FC<{
+  item: BasketItem
+  readOnly?: boolean
+}> = ({ item, readOnly }) => {
   const [updateBasketItem, { loading }] = useUpdateBasketItem()
   const [quantity, setQuantity] = useState(item.quantity)
   const [removing, setRemoving] = useState(false)
@@ -116,33 +119,39 @@ export const BasketItemRow: React.FC<{ item: BasketItem }> = ({ item }) => {
           {item.name}
         </TableCell>
         <TableCell align="center">
-          <button
-            onClick={onDecrease}
-            className={classes.decreaseButton}
-            data-testid={`decrease-${item.id}`}
-          >
-            -
-          </button>
+          {!readOnly && (
+            <button
+              onClick={onDecrease}
+              className={classes.decreaseButton}
+              data-testid={`decrease-${item.id}`}
+            >
+              -
+            </button>
+          )}
           <span data-testid={`quantity-${item.id}`}>{quantity}</span>
-          <button
-            onClick={onIncrease}
-            className={classes.increaseButton}
-            data-testid={`increase-${item.id}`}
-          >
-            +
-          </button>
+          {!readOnly && (
+            <button
+              onClick={onIncrease}
+              className={classes.increaseButton}
+              data-testid={`increase-${item.id}`}
+            >
+              +
+            </button>
+          )}
         </TableCell>
+        {!readOnly && (
+          <TableCell align="right">
+            <span className={classes.controls}>
+              {loading && <CircularProgress size={24} />}
 
-        <TableCell align="right">
-          <span className={classes.controls}>
-            {loading && <CircularProgress size={24} />}
-            <DeleteIcon
-              onClick={() => onRemove()}
-              className={classes.remove}
-              data-testid={`remove-${item.id}`}
-            />
-          </span>
-        </TableCell>
+              <DeleteIcon
+                onClick={() => onRemove()}
+                className={classes.remove}
+                data-testid={`remove-${item.id}`}
+              />
+            </span>
+          </TableCell>
+        )}
       </TableRow>
 
       <Snackbar

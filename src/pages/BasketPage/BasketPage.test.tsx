@@ -3,6 +3,7 @@ import { ApolloError } from '@apollo/client'
 import { MockedProvider } from '@apollo/client/testing'
 import '@testing-library/jest-dom/extend-expect'
 import { render, RenderResult } from '@testing-library/react'
+import { MemoryRouter, Route } from 'react-router-dom'
 
 import { BasketContext } from '../../contexts'
 import { Basket } from '../../graphql'
@@ -20,7 +21,11 @@ describe('Basket Page', () => {
       wrapper = render(
         <MockedProvider addTypename={false}>
           <BasketContext.Provider value={value}>
-            <BasketPage />
+            <MemoryRouter initialEntries={['/basket']}>
+              <Route path="/basket">
+                <BasketPage />
+              </Route>
+            </MemoryRouter>
           </BasketContext.Provider>
         </MockedProvider>
       )
@@ -73,7 +78,11 @@ describe('Basket Page', () => {
       wrapper = render(
         <MockedProvider addTypename={false}>
           <BasketContext.Provider value={value}>
-            <BasketPage />
+            <MemoryRouter initialEntries={['/basket']}>
+              <Route path="/basket">
+                <BasketPage />
+              </Route>
+            </MemoryRouter>
           </BasketContext.Provider>
         </MockedProvider>
       )
