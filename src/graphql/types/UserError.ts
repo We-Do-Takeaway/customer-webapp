@@ -1,4 +1,4 @@
 export interface UserError {
-  code: string
+  code?: string
   message: string
 }

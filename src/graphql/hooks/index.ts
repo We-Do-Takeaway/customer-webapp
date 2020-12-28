@@ -1,5 +1,7 @@
 export * from './useAddItemToBasket'
+export * from './useAddOrder'
 export * from './useBasketByOwnerId'
+export * from './useClearBasket'
 export * from './useMenu'
 export * from './useMenus'
 export * from './useUpdateBasketItem'
