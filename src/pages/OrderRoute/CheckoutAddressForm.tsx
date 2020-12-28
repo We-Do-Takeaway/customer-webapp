@@ -181,8 +181,8 @@ export const CheckoutAddressForm: React.FC<{
             data-testid="instructions-field"
             multiline
             label="Delivery instructions"
-            name="instructions"
-            defaultValue={order.contact?.instructions}
+            name="deliveryInstructions"
+            defaultValue={order.contact?.deliveryInstructions}
             variant="outlined"
             inputRef={register({
               maxLength: {
@@ -193,8 +193,8 @@ export const CheckoutAddressForm: React.FC<{
             })}
             fullWidth
             rows={8}
-            error={!!errors.instructions}
-            helperText={errors.instructions?.message}
+            error={!!errors.deliveryInstructions}
+            helperText={errors.deliveryInstructions?.message}
           />
         </div>
       </Paper>
