@@ -1,53 +1,81 @@
-import { Button } from '@material-ui/core'
+import { Button, CircularProgress } from '@material-ui/core'
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 
+import { useAddOrder, useClearBasket } from '../../graphql'
 import { BasketItemsTable } from '../../Sections'
 import { CheckoutContext } from './CheckoutContext'
-import { useStyles } from './useStyles'
 import { ContactDetailsSummary } from './ContactDetailsSummary'
+import { useStyles } from './useStyles'
 
 export const PlaceOrderPage: React.FC = () => {
   const classes = useStyles()
   const history = useHistory()
-  const { order } = useContext(CheckoutContext)
+
+  const { order, resetCheckout } = useContext(CheckoutContext)
+
+  const {
+    addOrder,
+    result: { loading: addOrderLoading },
+  } = useAddOrder()
+
+  const {
+    clearBasket,
+    result: { loading: clearBasketLoading },
+  } = useClearBasket()
 
   if (!order.contact?.name) {
     history.push('/order/contact-details')
   }
 
-  const onConfirm = () => {
-    // Place the order and once done, move to the next step
+  const onConfirm = async () => {
+    const addOrderResult = await addOrder(order)
+
+    if (addOrderResult.data?.addOrder.errors) {
+      return
+    }
+
+    await clearBasket()
+    resetCheckout()
+
+    const orderId = addOrderResult.data?.addOrder.order?.id || ''
+    history.push(`/order/receipt/${orderId}`)
   }
+
+  const loading = addOrderLoading || clearBasketLoading
 
   return (
     <div data-testid="checkout-page">
       <BasketItemsTable items={order.items} readOnly />
       <ContactDetailsSummary />
 
-      <div className={classes.buttonBar}>
-        <Button
-          color="default"
-          data-testid="checkout-back-button"
-          type="button"
-          variant="contained"
-          onClick={() => history.goBack()}
-          className={classes.button}
-        >
-          Go back
-        </Button>
+      {!loading && (
+        <div className={classes.buttonBar}>
+          <Button
+            color="default"
+            data-testid="checkout-back-button"
+            type="button"
+            variant="contained"
+            onClick={() => history.goBack()}
+            className={classes.button}
+          >
+            Go back
+          </Button>
 
-        <Button
-          color="primary"
-          data-testid="checkout-submit-button"
-          type="button"
-          variant="contained"
-          onClick={onConfirm}
-          className={classes.button}
-        >
-          Confirm
-        </Button>
-      </div>
+          <Button
+            color="primary"
+            data-testid="checkout-confirm-button"
+            type="button"
+            variant="contained"
+            onClick={onConfirm}
+            className={classes.button}
+          >
+            Confirm
+          </Button>
+        </div>
+      )}
+
+      {loading && <CircularProgress data-testid="order-loading" size={24} />}
     </div>
   )
 }

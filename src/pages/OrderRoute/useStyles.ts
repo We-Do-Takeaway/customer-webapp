@@ -27,6 +27,13 @@ export const useStyles = makeStyles((theme) => ({
     maxWidth,
     margin: theme.spacing(1, 0, 6),
   },
+  paperSuccess: {
+    backgroundColor: theme.palette.success.main,
+    color: theme.palette.success.contrastText,
+    margin: theme.spacing(1, 0, 6),
+    maxWidth,
+    padding: theme.spacing(2),
+  },
   paperContent: {
     maxWidth: maxWidth - innerMargin,
     margin: '0 auto',
