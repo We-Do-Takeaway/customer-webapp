@@ -129,7 +129,7 @@ describe('Checkout page', () => {
           cy.get('input[name="postcode"]').type('PP1 1LL')
           cy.get('input[name="phone"]').type('321123123')
           cy.get('input[name="email"]').type('fred@acme.corp')
-          cy.get('textarea[name="instructions"]').type('By the door')
+          cy.get('textarea[name="deliveryInstructions"]').type('By the door')
 
           cy.get('[data-testid="checkout-submit-button"]').click()
         })
@@ -160,6 +160,38 @@ describe('Checkout page', () => {
 
           it('send the user back to the contact details stage', () => {
             cy.url().should('include', '/contact-details')
+          })
+        })
+
+        context('the user selects confirm', () => {
+          beforeEach(() => {
+            cy.get('[data-testid="checkout-confirm-button"]').click()
+          })
+
+          it('display a receipt page', () => {
+            cy.url().should('include', '/order/receipt')
+            cy.get('h1').should('contain', 'Receipt')
+            cy.get('.MuiStepLabel-active').contains('Receipt')
+          })
+
+          it('include the order id in the page', () => {
+            cy.get('[data-testid="order-id"]').should('be.visible')
+            cy.get('[data-testid="order-id"]').should('not.be.empty')
+          })
+
+          it('clear the contents of the basket', () => {
+            cy.get('[data-testid="basket-indicator-count"]').should('not.exist')
+          })
+
+          context('the user tries to go back', () => () => {
+            beforeEach(() => {
+              cy.go('back')
+            })
+
+            it('realise empty context and return to basket', () => {
+              cy.url().should('include', '/basket')
+              cy.get('Your basket is currently empty').should('be.visible')
+            })
           })
         })
       }
