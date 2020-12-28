@@ -5,4 +5,8 @@ export interface UpdateContactAction {
   payload: Contact
 }
 
-export type CheckoutAction = UpdateContactAction
+export interface ResetCheckoutAction {
+  type: 'RESET_CHECKOUT'
+}
+
+export type CheckoutAction = UpdateContactAction | ResetCheckoutAction

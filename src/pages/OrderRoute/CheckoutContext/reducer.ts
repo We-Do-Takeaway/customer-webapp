@@ -1,5 +1,6 @@
 import { Order } from '../../../types'
 import { CheckoutAction } from './actions'
+import { contextDefaultValue } from './CheckoutContext'
 
 function reducer(state: Order, action: CheckoutAction) {
   switch (action.type) {
@@ -8,6 +9,8 @@ function reducer(state: Order, action: CheckoutAction) {
         ...state,
         contact: action.payload,
       }
+    case 'RESET_CHECKOUT':
+      return { ...contextDefaultValue.order }
     default:
   }
 
