@@ -8,6 +8,7 @@ import { Order } from '../../types'
 import { CheckoutContextProvider } from './CheckoutContext'
 import { ContactDetailsPage } from './ContactDetailsPage'
 import { PlaceOrderPage } from './PlaceOrderPage'
+import { ReceiptPage } from './ReceiptPage'
 import { useStyles } from './useStyles'
 
 const steps = [
@@ -31,7 +32,10 @@ export const OrderRoute: React.FC = () => {
   const { basket, loading } = useContext(BasketContext)
 
   const currentPath = window.location.pathname
-  const currentStep = steps.findIndex((step) => currentPath.endsWith(step.url))
+  const currentStep = steps.findIndex(
+    (step) => currentPath.indexOf(step.url) > 0
+  )
+  const onReceiptPage = currentPath.indexOf('/receipt') > 0
 
   if (loading || !basket) {
     return <p>Loading</p>
@@ -55,7 +59,8 @@ export const OrderRoute: React.FC = () => {
         }
       >
         <Typography className={classes.heading} variant="h4" component="h1">
-          Checkout
+          {onReceiptPage && 'Receipt'}
+          {!onReceiptPage && 'Checkout'}
         </Typography>
         <Switch>
           <Route
@@ -63,6 +68,7 @@ export const OrderRoute: React.FC = () => {
             component={ContactDetailsPage}
           />
           <Route path={`${path}/place-order`} component={PlaceOrderPage} />
+          <Route path={`${path}/receipt/:orderId`} component={ReceiptPage} />
         </Switch>
       </HeaderContent>
     </CheckoutContextProvider>

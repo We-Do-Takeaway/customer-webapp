@@ -6,5 +6,5 @@ export interface Contact {
   postcode: string
   phone: string
   email?: string
-  instructions?: string
+  deliveryInstructions?: string
 }

@@ -68,7 +68,7 @@ export const ContactDetailsSummary: React.FC = () => {
               </Typography>
               <Grid container>N/A</Grid>
             </Grid>
-            {order.contact?.instructions && (
+            {order.contact?.deliveryInstructions && (
               <Grid item sm={12} data-testid="delivery-instructions-section">
                 <hr />
                 <Typography
@@ -79,7 +79,7 @@ export const ContactDetailsSummary: React.FC = () => {
                   Instructions
                 </Typography>
                 <Typography data-testid="delivery-instructions" gutterBottom>
-                  {order.contact?.instructions}
+                  {order.contact?.deliveryInstructions}
                 </Typography>
               </Grid>
             )}
