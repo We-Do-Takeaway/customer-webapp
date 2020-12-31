@@ -7,23 +7,22 @@ import {
   TableRow,
 } from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete'
+
+import { CompactButton } from '../../components'
 import { BasketItem, useUpdateBasketItem } from '../../graphql'
 import { getOwnerId } from '../../utils'
 import { RemoveItemConfirmationDialog } from './RemoveItemConfirmationDialog'
 
 const useStyles = makeStyles((theme) => ({
-  decreaseButton: {
-    margin: theme.spacing(0, 1, 0, 0),
-  },
-  increaseButton: {
-    margin: theme.spacing(0, 0, 0, 1),
+  controls: {
+    display: 'inline-block',
+    marginTop: 7,
   },
   img: {
     maxWidth: 50,
   },
-  controls: {
-    display: 'inline-block',
-    marginTop: 7,
+  quantity: {
+    padding: theme.spacing(0, 1),
   },
   remove: {
     fill: 'red',
@@ -120,23 +119,26 @@ export const BasketItemRow: React.FC<{
         </TableCell>
         <TableCell align="center">
           {!readOnly && (
-            <button
+            <CompactButton
               onClick={onDecrease}
-              className={classes.decreaseButton}
               data-testid={`decrease-${item.id}`}
             >
               -
-            </button>
+            </CompactButton>
           )}
-          <span data-testid={`quantity-${item.id}`}>{quantity}</span>
+          <span
+            className={classes.quantity}
+            data-testid={`quantity-${item.id}`}
+          >
+            {quantity}
+          </span>
           {!readOnly && (
-            <button
+            <CompactButton
               onClick={onIncrease}
-              className={classes.increaseButton}
               data-testid={`increase-${item.id}`}
             >
               +
-            </button>
+            </CompactButton>
           )}
         </TableCell>
         {!readOnly && (
