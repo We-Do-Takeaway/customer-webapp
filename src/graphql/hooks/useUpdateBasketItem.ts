@@ -1,10 +1,9 @@
 import { gql, useMutation } from '@apollo/client'
-import { Basket, BasketItemInput, UserError } from '../types'
+import { Basket, BasketItemInput } from '../types'
 
 export interface UpdateBasketItemMutationResponse {
   addBasketItem: {
     basket: Basket
-    errors: UserError[]
   }
 }
 
@@ -19,10 +18,6 @@ const UPDATE_BASKET_ITEM_MUTATION = gql`
           name
           quantity
         }
-      }
-      errors {
-        code
-        message
       }
     }
   }

@@ -23,7 +23,7 @@ export const AddItemSection: React.FC<{ itemId: string }> = ({ itemId }) => {
     max: 20,
   })
   const ownerId = getOwnerId()
-  const [addItemToBasket, { loading, error, data }] = useAddItemToBasket()
+  const [addItemToBasket, { loading, error }] = useAddItemToBasket()
   const [showConfirmation, shouldShowConfirmation] = useState(false)
 
   const classes = useStyles({ loading })
@@ -45,8 +45,6 @@ export const AddItemSection: React.FC<{ itemId: string }> = ({ itemId }) => {
   }
 
   if (error) return <p>Error: {error.message}</p>
-  if (data && data.addBasketItem.errors)
-    return <p>{data.addBasketItem.errors[0].message}</p>
 
   return (
     <>

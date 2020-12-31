@@ -1,11 +1,10 @@
 import { gql, useMutation } from '@apollo/client'
-import { Basket, UserError } from '../types'
+import { Basket } from '../types'
 import { getOwnerId } from '../../utils'
 
 export interface ClearBasketMutationResponse {
   clearBasketByOwnerId: {
     basket?: Basket
-    errors?: UserError[]
   }
 }
 
@@ -20,10 +19,6 @@ const CLEAR_BASKET_MUTATION = gql`
           name
           quantity
         }
-      }
-      errors {
-        code
-        message
       }
     }
   }

@@ -4,10 +4,6 @@ const clearBasketQuery = `
       basket {
         id
       }
-      errors {
-        code
-        message
-      }
     }
   }
 `

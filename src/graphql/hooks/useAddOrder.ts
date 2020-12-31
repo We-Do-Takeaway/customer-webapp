@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client'
-import { AddOrderInput, OrderItemInput, UserError } from '../types'
+import { AddOrderInput, OrderItemInput } from '../types'
 import { Order } from '../../types'
 import { getOwnerId } from '../../utils'
 
@@ -8,7 +8,6 @@ export interface AddOrderMutationResponse {
     order?: {
       id: string
     }
-    errors?: UserError[]
   }
 }
 
@@ -17,10 +16,6 @@ const ADD_ORDER_MUTATION = gql`
     addOrder(input: $input) {
       order {
         id
-      }
-      errors {
-        code
-        message
       }
     }
   }
