@@ -1,11 +1,7 @@
-import { ApolloError, gql, useQuery } from '@apollo/client'
-import { Basket } from '../types'
+import { gql, useQuery } from '@apollo/client'
 
-export interface UseBasketByOwnerIdResponse {
-  loading?: boolean
-  error?: ApolloError
-  basket?: Basket
-}
+import { Basket, UseResponse } from '../types'
+import { getServerErrors } from '../utils'
 
 interface UseBasketByOwnerIdQueryResponse {
   basketByOwnerId: Basket
@@ -27,7 +23,7 @@ const BASKET_BY_OWNER_ID_QUERY = gql`
   }
 `
 
-export function useBasketByOwnerId(id: string): UseBasketByOwnerIdResponse {
+export function useBasketByOwnerId(id: string): UseResponse<Basket> {
   const { data, error, loading } = useQuery<UseBasketByOwnerIdQueryResponse>(
     BASKET_BY_OWNER_ID_QUERY,
     {
@@ -40,12 +36,10 @@ export function useBasketByOwnerId(id: string): UseBasketByOwnerIdResponse {
   }
 
   if (error) {
-    return { error, loading }
+    return { errors: getServerErrors(error), loading }
   }
 
   return {
-    basket: data?.basketByOwnerId,
-    error,
-    loading,
+    data: data?.basketByOwnerId,
   }
 }

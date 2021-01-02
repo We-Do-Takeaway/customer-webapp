@@ -1,6 +1,7 @@
-import { ApolloError, gql, useQuery } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 
-import { Connection } from '../types'
+import { Connection, UseResponse } from '../types'
+import { getServerErrors } from '../utils'
 
 export interface Item {
   id: string
@@ -29,12 +30,6 @@ interface Menu {
   introduction?: string
   footer?: string
   sections?: Connection<Section>
-}
-
-interface UseMenuResponse {
-  loading?: boolean
-  error?: ApolloError
-  menu?: Menu
 }
 
 interface UseMenuQueryResponse {
@@ -97,7 +92,7 @@ const MENUS_QUERY = gql`
   }
 `
 
-export function useMenu(id: string): UseMenuResponse {
+export function useMenu(id: string): UseResponse<Menu> {
   const { data, error, loading } = useQuery<UseMenuQueryResponse>(MENUS_QUERY, {
     variables: { id },
   })
@@ -107,12 +102,10 @@ export function useMenu(id: string): UseMenuResponse {
   }
 
   if (error) {
-    return { error, loading }
+    return { errors: getServerErrors(error) }
   }
 
   return {
-    menu: data?.menuById,
-    error,
-    loading,
+    data: data?.menuById,
   }
 }

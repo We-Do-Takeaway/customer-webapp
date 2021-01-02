@@ -1,7 +1,9 @@
 import { gql, useMutation } from '@apollo/client'
-import { AddOrderInput, OrderItemInput } from '../types'
+
 import { Order } from '../../types'
 import { getOwnerId } from '../../utils'
+import { AddOrderInput, OrderItemInput } from '../types'
+import { getServerErrors } from '../utils'
 
 export interface AddOrderMutationResponse {
   addOrder: {
@@ -22,7 +24,7 @@ const ADD_ORDER_MUTATION = gql`
 `
 
 export const useAddOrder = () => {
-  const [callAddOrder, result] = useMutation<
+  const [callAddOrder, { data, error, loading }] = useMutation<
     AddOrderMutationResponse,
     AddOrderInput
   >(ADD_ORDER_MUTATION)
@@ -48,5 +50,7 @@ export const useAddOrder = () => {
     })
   }
 
-  return { addOrder, result }
+  const errors = error ? getServerErrors(error) : undefined
+
+  return { addOrder, data, errors, loading }
 }
