@@ -6,7 +6,7 @@ import { render, RenderResult } from '@testing-library/react'
 import { MemoryRouter, Route } from 'react-router-dom'
 
 import { BasketContext } from '../../contexts'
-import { Basket } from '../../graphql'
+import { Basket, UseResponse } from '../../graphql'
 import { BasketPage } from './BasketPage'
 
 describe('Basket Page', () => {
@@ -51,7 +51,7 @@ describe('Basket Page', () => {
 
   describe('when a basket is loaded with items', () => {
     beforeEach(() => {
-      const basket: Basket = {
+      const data: Basket = {
         id: '1234',
         ownerId: '4321',
         basketType: 'ANONYMOUS',
@@ -72,7 +72,7 @@ describe('Basket Page', () => {
       }
 
       const value = {
-        basket,
+        data,
       }
 
       wrapper = render(
@@ -147,15 +147,15 @@ describe('Basket Page', () => {
 
   describe('when a basket is loaded with no items', () => {
     beforeEach(() => {
-      const basket: Basket = {
+      const data: Basket = {
         id: '1234',
         ownerId: '4321',
         basketType: 'ANONYMOUS',
         items: [],
       }
 
-      const value = {
-        basket,
+      const value: UseResponse<Basket> = {
+        data,
       }
 
       wrapper = render(
@@ -193,12 +193,14 @@ describe('Basket Page', () => {
 
   describe('when there is an error loading the basket', () => {
     beforeEach(() => {
-      const error: ApolloError = {
-        message: 'Something happened',
-      } as ApolloError
+      const errors: ApolloError[] = [
+        {
+          message: 'Something happened',
+        } as ApolloError,
+      ]
 
       const value = {
-        error,
+        errors,
       }
 
       wrapper = render(
@@ -232,7 +234,7 @@ describe('Basket Page', () => {
     it('display a message to tell the user there was an error', () => {
       expect(wrapper.getByTestId('basket-page-error')).toBeInTheDocument()
       expect(wrapper.getByTestId('basket-page-error')).toHaveTextContent(
-        'Error: Something happened'
+        'Something happened'
       )
     })
   })

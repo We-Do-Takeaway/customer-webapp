@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }))
 
 export const BasketPage: React.FC = () => {
-  const { basket, error, loading } = useContext(BasketContext)
+  const { data: basket, errors, loading } = useContext(BasketContext)
 
   const classes = useStyles()
   const hasItems = basket?.items && basket.items.length > 0
@@ -48,8 +48,12 @@ export const BasketPage: React.FC = () => {
           <CircularProgress color="inherit" />
         </Backdrop>
       )}
-      {!loading && error && (
-        <p data-testid="basket-page-error">Error: {error.message}</p>
+      {errors && (
+        <div data-testid="basket-page-error">
+          {errors.map((error) => (
+            <p key={error.message}>{error.message}</p>
+          ))}
+        </div>
       )}
       {!loading && !hasItems && (
         <p data-testid="basket-page-empty">Your basket is currently empty</p>

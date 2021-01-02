@@ -16,12 +16,14 @@ export const PlaceOrderPage: React.FC = () => {
 
   const {
     addOrder,
-    result: { loading: addOrderLoading, error: addOrderError },
+    loading: addOrderLoading,
+    errors: addOrderErrors,
   } = useAddOrder()
 
   const {
     clearBasket,
-    result: { loading: clearBasketLoading, error: clearBasketError },
+    loading: clearBasketLoading,
+    errors: clearBasketErrors,
   } = useClearBasket()
 
   if (!order.contact?.name) {
@@ -72,8 +74,14 @@ export const PlaceOrderPage: React.FC = () => {
       )}
 
       {loading && <CircularProgress data-testid="order-loading" size={24} />}
-      {addOrderError?.message}
-      {clearBasketError?.message}
+      {addOrderErrors &&
+        addOrderErrors.map((error) => (
+          <p key={error.message}>{error.message}</p>
+        ))}
+      {clearBasketErrors &&
+        clearBasketErrors.map((error) => (
+          <p key={error.message}>{error.message}</p>
+        ))}
     </div>
   )
 }

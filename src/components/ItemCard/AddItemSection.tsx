@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Snackbar, Theme } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { BasketItemInput, useAddItemToBasket } from '../../graphql'
+import { useAddItemToBasket } from '../../graphql'
 import { useCounter } from '../../hooks'
 import { getOwnerId } from '../../utils'
 
@@ -23,7 +23,7 @@ export const AddItemSection: React.FC<{ itemId: string }> = ({ itemId }) => {
     max: 20,
   })
   const ownerId = getOwnerId()
-  const [addItemToBasket, { loading, error }] = useAddItemToBasket()
+  const { addItemToBasket, loading, errors } = useAddItemToBasket()
   const [showConfirmation, shouldShowConfirmation] = useState(false)
 
   const classes = useStyles({ loading })
@@ -32,19 +32,23 @@ export const AddItemSection: React.FC<{ itemId: string }> = ({ itemId }) => {
     // If we are waiting for query to complete, don't fire off another one (stop double click and spam)
     if (loading) return
 
-    const variables: BasketItemInput = {
-      input: {
-        ownerId,
-        itemId,
-        quantity,
-      },
-    }
-
-    await addItemToBasket({ variables })
+    await addItemToBasket({
+      ownerId,
+      itemId,
+      quantity,
+    })
     shouldShowConfirmation(true)
   }
 
-  if (error) return <p>Error: {error.message}</p>
+  if (errors) {
+    return (
+      <>
+        {errors.map((error) => (
+          <p key={error.message}>{error.message}</p>
+        ))}
+      </>
+    )
+  }
 
   return (
     <>
