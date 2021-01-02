@@ -1,7 +1,5 @@
+import { BasketItemParams } from './BasketItemParams'
+
 export interface BasketItemInput {
-  input: {
-    itemId: string
-    ownerId: string
-    quantity: number
-  }
+  input: BasketItemParams
 }
