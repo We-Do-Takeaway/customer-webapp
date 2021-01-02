@@ -1,10 +1,11 @@
 import { gql, useMutation } from '@apollo/client'
-import { Basket, BasketItemInput, UserError } from '../types'
+
+import { Basket, BasketItemInput, BasketItemParams } from '../types'
+import { getServerErrors } from '../utils'
 
 export interface AddItemToBasketMutationResponse {
   addBasketItem: {
     basket: Basket
-    errors: UserError[]
   }
 }
 
@@ -20,15 +21,30 @@ const ADD_BASKET_ITEM_MUTATION = gql`
           quantity
         }
       }
-      errors {
-        code
-        message
-      }
     }
   }
 `
 
-export const useAddItemToBasket = () =>
-  useMutation<AddItemToBasketMutationResponse, BasketItemInput>(
-    ADD_BASKET_ITEM_MUTATION
-  )
+export const useAddItemToBasket = () => {
+  const [callAddItemToBasket, { data, error, loading }] = useMutation<
+    AddItemToBasketMutationResponse,
+    BasketItemInput
+  >(ADD_BASKET_ITEM_MUTATION)
+
+  const addItemToBasket = ({ itemId, ownerId, quantity }: BasketItemParams) => {
+    const variables: BasketItemInput = {
+      input: {
+        itemId,
+        ownerId,
+        quantity,
+      },
+    }
+
+    return callAddItemToBasket({
+      variables,
+    })
+  }
+  const errors = error ? getServerErrors(error) : undefined
+
+  return { addItemToBasket, data, errors, loading }
+}

@@ -33,7 +33,7 @@ export const BasketItemRow: React.FC<{
   item: BasketItem
   readOnly?: boolean
 }> = ({ item, readOnly }) => {
-  const [updateBasketItem, { loading }] = useUpdateBasketItem()
+  const { updateBasketItem, loading, errors } = useUpdateBasketItem()
   const [quantity, setQuantity] = useState(item.quantity)
   const [removing, setRemoving] = useState(false)
   const [showRemoved, shouldShowRemoved] = useState(false)
@@ -48,13 +48,9 @@ export const BasketItemRow: React.FC<{
     setQuantity(newQuantity)
 
     await updateBasketItem({
-      variables: {
-        input: {
-          ownerId: getOwnerId(),
-          itemId: item.id,
-          quantity: newQuantity,
-        },
-      },
+      ownerId: getOwnerId(),
+      itemId: item.id,
+      quantity: newQuantity,
     })
   }
 
@@ -63,13 +59,9 @@ export const BasketItemRow: React.FC<{
     setQuantity(newQuantity)
 
     await updateBasketItem({
-      variables: {
-        input: {
-          ownerId: getOwnerId(),
-          itemId: item.id,
-          quantity: newQuantity,
-        },
-      },
+      ownerId: getOwnerId(),
+      itemId: item.id,
+      quantity: newQuantity,
     })
   }
 
@@ -85,13 +77,9 @@ export const BasketItemRow: React.FC<{
     setRemoving(true)
 
     await updateBasketItem({
-      variables: {
-        input: {
-          ownerId: getOwnerId(),
-          itemId: item.id,
-          quantity: newQuantity,
-        },
-      },
+      ownerId: getOwnerId(),
+      itemId: item.id,
+      quantity: newQuantity,
     })
 
     shouldShowRemoved(true)
@@ -103,6 +91,9 @@ export const BasketItemRow: React.FC<{
 
   return (
     <>
+      {errors &&
+        errors.map((error) => <p key={error.message}>{error.message}</p>)}
+
       <TableRow key={item.id} style={{ opacity: removing ? 0.33 : 1 }}>
         <TableCell>
           {item?.photo && (

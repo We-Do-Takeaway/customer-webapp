@@ -29,7 +29,7 @@ const steps = [
 export const OrderRoute: React.FC = () => {
   const { path } = useRouteMatch()
   const classes = useStyles()
-  const { basket, loading } = useContext(BasketContext)
+  const { data: basket, errors, loading } = useContext(BasketContext)
 
   const currentPath = window.location.pathname
   const currentStep = steps.findIndex(
@@ -39,6 +39,16 @@ export const OrderRoute: React.FC = () => {
 
   if (loading || !basket) {
     return <p>Loading</p>
+  }
+
+  if (errors) {
+    return (
+      <>
+        {errors.map((error) => (
+          <p key={error.message}>{error.message}</p>
+        ))}
+      </>
+    )
   }
 
   const value: Order = {

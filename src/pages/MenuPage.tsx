@@ -11,16 +11,18 @@ interface MenuParams {
 
 export const MenuPage: React.FC = () => {
   const { menuId } = useParams<MenuParams>()
-  const { loading, error, menu } = useMenu(menuId)
+  const { loading, errors, data } = useMenu(menuId)
 
   return (
     <>
       {loading && <p>Loading...</p>}
-      {error && <p>{error?.message}</p>}
-      <header>{menu && <MenuDetailCard menu={menu} />}</header>
-      {menu && menu.sections && <SectionList sections={menu.sections.nodes} />}
+      {errors &&
+        errors.map((error) => <p key={error.message}>{error.message}</p>)}
+
+      <header>{data && <MenuDetailCard menu={data} />}</header>
+      {data && data.sections && (
+        <SectionList sections={data?.sections?.nodes} />
+      )}
     </>
   )
 }
-
-// TODO - re-introduce breadcrumbs

@@ -1,6 +1,7 @@
-import { ApolloError, gql, useQuery } from '@apollo/client'
+import { gql, useQuery } from '@apollo/client'
 
-import { Connection } from '../types'
+import { Connection, UseResponse } from '../types'
+import { getServerErrors } from '../utils'
 
 export interface MenuSummary {
   id: string
@@ -9,12 +10,6 @@ export interface MenuSummary {
   introduction?: string
   footer?: string
   photo?: string
-}
-
-interface UseMenusResponse {
-  loading?: boolean
-  error?: ApolloError
-  menus?: Connection<MenuSummary>
 }
 
 interface UseMenusQueryResponse {
@@ -48,7 +43,7 @@ const MENUS_QUERY = gql`
   }
 `
 
-export function useMenus(): UseMenusResponse {
+export function useMenus(): UseResponse<Connection<MenuSummary>> {
   const { data, error, loading } = useQuery<UseMenusQueryResponse>(MENUS_QUERY)
 
   if (loading) {
@@ -56,12 +51,10 @@ export function useMenus(): UseMenusResponse {
   }
 
   if (error) {
-    return { error, loading }
+    return { errors: getServerErrors(error), loading }
   }
 
   return {
-    menus: data?.menus,
-    error,
-    loading,
+    data: data?.menus,
   }
 }

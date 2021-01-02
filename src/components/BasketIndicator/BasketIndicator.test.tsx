@@ -53,7 +53,7 @@ describe('Basket indicator', () => {
 
   describe('when there are items in the basket', () => {
     beforeEach(() => {
-      const basket: Basket = {
+      const data: Basket = {
         id: '1234',
         ownerId: '4321',
         basketType: 'ANONYMOUS',
@@ -67,8 +67,7 @@ describe('Basket indicator', () => {
       }
 
       const value = {
-        basket,
-        loading: false,
+        data,
       }
 
       wrapper = render(

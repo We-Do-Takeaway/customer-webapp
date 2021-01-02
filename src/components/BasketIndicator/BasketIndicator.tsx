@@ -18,7 +18,7 @@ const basketCountReducer = (accumulator: number, { quantity }: BasketItem) =>
 
 export const BasketIndicator = () => {
   const classNames = useStyles()
-  const { basket } = useContext(BasketContext)
+  const { data: basket } = useContext(BasketContext)
   const history = useHistory()
   const itemCount =
     basket && basket?.items?.length > 0

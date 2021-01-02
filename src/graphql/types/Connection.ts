@@ -7,7 +7,7 @@ interface PageInfo {
   hasNextPage: boolean
   hasPreviousPage: boolean
   startCursor?: string
-  endCurcor?: string
+  endCursor?: string
 }
 
 export interface Connection<T> {

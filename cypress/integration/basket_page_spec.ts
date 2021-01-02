@@ -5,6 +5,9 @@ describe('Basket items page', () => {
   beforeEach(() => {
     // Reset basket and owner
     cy.resetOwner()
+  })
+
+  afterEach(() => {
     cy.clearBasket()
   })
 

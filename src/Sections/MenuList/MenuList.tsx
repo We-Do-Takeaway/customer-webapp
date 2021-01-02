@@ -1,17 +1,23 @@
 import React from 'react'
 
-import { useMenus } from '../../graphql/hooks'
+import { useMenus } from '../../graphql'
 import { MenuSummaryCard } from '../../components'
 
 export const MenuList: React.FC = () => {
-  const { loading, error, menus } = useMenus()
+  const { loading, errors, data: menus } = useMenus()
 
   if (loading) {
     return <></>
   }
 
-  if (error) {
-    return <p>Error: {error?.message}</p>
+  if (errors) {
+    return (
+      <>
+        {errors.map((error) => (
+          <p key={error.message}>{error.message}</p>
+        ))}
+      </>
+    )
   }
 
   return (

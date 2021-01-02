@@ -16,12 +16,14 @@ export const PlaceOrderPage: React.FC = () => {
 
   const {
     addOrder,
-    result: { loading: addOrderLoading },
+    loading: addOrderLoading,
+    errors: addOrderErrors,
   } = useAddOrder()
 
   const {
     clearBasket,
-    result: { loading: clearBasketLoading },
+    loading: clearBasketLoading,
+    errors: clearBasketErrors,
   } = useClearBasket()
 
   if (!order.contact?.name) {
@@ -30,10 +32,6 @@ export const PlaceOrderPage: React.FC = () => {
 
   const onConfirm = async () => {
     const addOrderResult = await addOrder(order)
-
-    if (addOrderResult.data?.addOrder.errors) {
-      return
-    }
 
     await clearBasket()
     resetCheckout()
@@ -76,6 +74,14 @@ export const PlaceOrderPage: React.FC = () => {
       )}
 
       {loading && <CircularProgress data-testid="order-loading" size={24} />}
+      {addOrderErrors &&
+        addOrderErrors.map((error) => (
+          <p key={error.message}>{error.message}</p>
+        ))}
+      {clearBasketErrors &&
+        clearBasketErrors.map((error) => (
+          <p key={error.message}>{error.message}</p>
+        ))}
     </div>
   )
 }
