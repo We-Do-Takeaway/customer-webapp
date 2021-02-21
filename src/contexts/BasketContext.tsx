@@ -1,11 +1,10 @@
 import React, { createContext } from 'react'
 
-import { Basket, useBasketByOwnerId, UseResponse } from '../graphql'
-import { getOwnerId } from '../utils'
+import { Basket, useBasket, UseResponse } from '../graphql'
+import { getBasketId } from '../utils'
 
 const defaultBasket: Basket = {
   id: '',
-  ownerId: getOwnerId(),
   basketType: 'ANONYMOUS',
   items: [],
 }
@@ -18,8 +17,8 @@ const defaultValue = {
 export const BasketContext = createContext<UseResponse<Basket>>(defaultValue)
 
 export const BasketProvider: React.FC = ({ children }) => {
-  const ownerId = getOwnerId()
-  const value = useBasketByOwnerId(ownerId)
+  const basketId = getBasketId()
+  const value = useBasket(basketId)
 
   return (
     <BasketContext.Provider value={value}>{children}</BasketContext.Provider>

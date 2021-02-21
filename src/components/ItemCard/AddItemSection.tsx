@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { useAddItemToBasket } from '../../graphql'
 import { useCounter } from '../../hooks'
-import { getOwnerId } from '../../utils'
+import { getBasketId } from '../../utils'
 
 const useStyles = makeStyles<Theme, { loading: boolean }>((theme) => ({
   root: {
@@ -22,7 +22,7 @@ export const AddItemSection: React.FC<{ itemId: string }> = ({ itemId }) => {
     min: 1,
     max: 20,
   })
-  const ownerId = getOwnerId()
+  const basketId = getBasketId()
   const { addItemToBasket, loading, errors } = useAddItemToBasket()
   const [showConfirmation, shouldShowConfirmation] = useState(false)
 
@@ -33,7 +33,7 @@ export const AddItemSection: React.FC<{ itemId: string }> = ({ itemId }) => {
     if (loading) return
 
     await addItemToBasket({
-      ownerId,
+      basketId,
       itemId,
       quantity,
     })

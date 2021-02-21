@@ -1,5 +1,13 @@
-import { BasketItemParams } from './BasketItemParams'
+export interface BasketItemParams {
+  basketId: string
+  itemId: string
+  quantity: number
+}
 
-export interface BasketItemInput {
-  input: BasketItemParams
+export interface BasketMutationVariables {
+  basketId: string
+  basketItem: {
+    itemId: string
+    quantity: number
+  }
 }

@@ -20,9 +20,7 @@ export const MenuPage: React.FC = () => {
         errors.map((error) => <p key={error.message}>{error.message}</p>)}
 
       <header>{data && <MenuDetailCard menu={data} />}</header>
-      {data && data.sections && (
-        <SectionList sections={data?.sections?.nodes} />
-      )}
+      {data && data.sections && <SectionList sections={data?.sections} />}
     </>
   )
 }

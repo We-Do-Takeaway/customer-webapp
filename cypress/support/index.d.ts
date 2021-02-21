@@ -1,8 +1,8 @@
 declare namespace Cypress {
   interface Chainable {
     clearBasket(): Chainable<Element>
-    clearOwner(): Chainable<Element>
-    resetOwner(): Chainable<Element>
-    setOwner(owner: string): Chainable<Element>
+    clearBasketId(): Chainable<Element>
+    resetBasketId(): Chainable<Element>
+    setBasketId(basketId: string): Chainable<Element>
   }
 }

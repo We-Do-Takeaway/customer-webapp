@@ -1,51 +1,42 @@
 import { gql, useMutation } from '@apollo/client'
 
-import { Basket, BasketItemInput } from '../types'
+import { Basket, BasketItemParams, BasketMutationVariables } from '../types'
 import { getServerErrors } from '../utils'
 
 export interface UpdateBasketItemMutationResponse {
-  addBasketItem: {
+  updateBasketItem: {
     basket: Basket
   }
 }
 
 const UPDATE_BASKET_ITEM_MUTATION = gql`
-  mutation UpdateBasketItem($input: BasketItemInput!) {
-    updateBasketItem(input: $input) {
-      basket {
+  mutation UpdateBasketItem($basketId: ID!, $basketItem: BasketItemInput!) {
+    updateBasketItem(basketId: $basketId, basketItem: $basketItem) {
+      id
+      items {
         id
-        ownerId
-        items {
-          id
-          name
-          quantity
-        }
+        name
+        quantity
       }
     }
   }
 `
 
-interface UpdateItemToBasketParameters {
-  itemId: string
-  ownerId: string
-  quantity: number
-}
-
 export const useUpdateBasketItem = () => {
   const [callUpdateBasketItem, { data, error, loading }] = useMutation<
     UpdateBasketItemMutationResponse,
-    BasketItemInput
+    BasketMutationVariables
   >(UPDATE_BASKET_ITEM_MUTATION)
 
   const updateBasketItem = ({
     itemId,
-    ownerId,
+    basketId,
     quantity,
-  }: UpdateItemToBasketParameters) => {
-    const variables: BasketItemInput = {
-      input: {
+  }: BasketItemParams) => {
+    const variables: BasketMutationVariables = {
+      basketId,
+      basketItem: {
         itemId,
-        ownerId,
         quantity,
       },
     }

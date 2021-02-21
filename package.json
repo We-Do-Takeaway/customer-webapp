@@ -77,5 +77,5 @@
       "pre-commit": "lint-staged"
     }
   },
-  "proxy": "http://www.wedotakeaway.com"
+  "proxy": "http://localhost:8000"
 }

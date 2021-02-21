@@ -34,7 +34,7 @@ context('Homepage', () => {
     it('navigate to menu page', () => {
       cy.location('href').should(
         'contain',
-        '/menu/600dca30-c6e2-4035-ad15-783c122d6ea1'
+        '/menu/11ca8caa-e5dc-494d-bcfd-79fdeb34b1b1'
       )
     })
   })

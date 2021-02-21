@@ -12,7 +12,6 @@ describe('Basket indicator', () => {
     beforeEach(() => {
       const basket: Basket = {
         id: '1234',
-        ownerId: '4321',
         basketType: 'ANONYMOUS',
         items: [],
       }
@@ -55,7 +54,6 @@ describe('Basket indicator', () => {
     beforeEach(() => {
       const data: Basket = {
         id: '1234',
-        ownerId: '4321',
         basketType: 'ANONYMOUS',
         items: [
           {

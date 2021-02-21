@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { ItemCard } from '../../components'
-import { Section } from '../../graphql/hooks/useMenu'
+import { Section } from '../../graphql'
 
 interface SectionListProps {
   sections: Section[]
@@ -36,7 +36,7 @@ export const SectionList: React.FC<SectionListProps> = ({ sections }) => {
           <h2 data-testid="section-title">{section.name}</h2>
           <p data-testid="section-description">{section.description}</p>
           <ul className={classes.items} data-testid="section-items">
-            {section.items?.nodes.map((item) => (
+            {(section.items || []).map((item) => (
               <li
                 className={classes.item}
                 key={item.id}

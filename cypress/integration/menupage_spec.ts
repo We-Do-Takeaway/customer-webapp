@@ -5,7 +5,7 @@ const sectionItemSel = (sectionNumber: number, itemNumber: number) =>
 
 describe('Menu page', () => {
   before(() => {
-    cy.visit('/menu/600dca30-c6e2-4035-ad15-783c122d6ea1')
+    cy.visit('/menu/11ca8caa-e5dc-494d-bcfd-79fdeb34b1b1')
   })
 
   it('display menu details', () => {
@@ -59,7 +59,7 @@ describe('Menu page', () => {
           .should('have.css', 'background-image')
           .and(
             'contain',
-            'url("https://www.wedotakeaway.com/images/sausages.jpg")'
+            'url("http://localhost:3000/images/default-thumbnail.png")'
           )
       })
     })
@@ -84,29 +84,8 @@ describe('Menu page', () => {
       )
     })
 
-    it('1st  desert item is a bowl of cherries', () => {
+    it('1st desert item is Chocolate ice-cream surprise', () => {
       cy.get(sectionItemSel(2, 1)).within(() => {
-        cy.get('[data-testid="item-card-title"]').should(
-          'contain',
-          'Bowl of cherries'
-        )
-
-        cy.get('[data-testid="item-card-description"]').should(
-          'contain',
-          'Big bowl of cherries'
-        )
-
-        cy.get('[data-testid="item-card-image"]')
-          .should('have.css', 'background-image')
-          .and(
-            'contain',
-            'url("https://www.wedotakeaway.com/images/cherries.jpg")'
-          )
-      })
-    })
-
-    it('2nd desert item is Chocolate ice-cream surprise', () => {
-      cy.get(sectionItemSel(2, 2)).within(() => {
         cy.get('[data-testid="item-card-title"]').should(
           'contain',
           'Chocolate ice-cream surprise'
@@ -121,7 +100,28 @@ describe('Menu page', () => {
           .should('have.css', 'background-image')
           .and(
             'contain',
-            'url("https://www.wedotakeaway.com/images/choc-ice-cream.webp")'
+            'url("http://localhost:3000/images/default-thumbnail.png")'
+          )
+      })
+    })
+
+    it('2nd desert item is a bowl of cherries', () => {
+      cy.get(sectionItemSel(2, 2)).within(() => {
+        cy.get('[data-testid="item-card-title"]').should(
+          'contain',
+          'Bowl of cherries'
+        )
+
+        cy.get('[data-testid="item-card-description"]').should(
+          'contain',
+          'Big bowl of cherries'
+        )
+
+        cy.get('[data-testid="item-card-image"]')
+          .should('have.css', 'background-image')
+          .and(
+            'contain',
+            'url("http://localhost:3000/images/default-thumbnail.png")'
           )
       })
     })
