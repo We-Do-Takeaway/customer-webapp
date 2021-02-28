@@ -10,7 +10,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 import { CompactButton } from '../../components'
 import { BasketItem, useUpdateBasketItem } from '../../graphql'
-import { getOwnerId } from '../../utils'
+import { getBasketId } from '../../utils'
 import { RemoveItemConfirmationDialog } from './RemoveItemConfirmationDialog'
 
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +48,7 @@ export const BasketItemRow: React.FC<{
     setQuantity(newQuantity)
 
     await updateBasketItem({
-      ownerId: getOwnerId(),
+      basketId: getBasketId(),
       itemId: item.id,
       quantity: newQuantity,
     })
@@ -59,7 +59,7 @@ export const BasketItemRow: React.FC<{
     setQuantity(newQuantity)
 
     await updateBasketItem({
-      ownerId: getOwnerId(),
+      basketId: getBasketId(),
       itemId: item.id,
       quantity: newQuantity,
     })
@@ -77,7 +77,7 @@ export const BasketItemRow: React.FC<{
     setRemoving(true)
 
     await updateBasketItem({
-      ownerId: getOwnerId(),
+      basketId: getBasketId(),
       itemId: item.id,
       quantity: newQuantity,
     })

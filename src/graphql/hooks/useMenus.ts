@@ -1,50 +1,30 @@
 import { gql, useQuery } from '@apollo/client'
 
-import { Connection, UseResponse } from '../types'
+import { UseResponse } from '../types'
 import { getServerErrors } from '../utils'
 
 export interface MenuSummary {
   id: string
   name: string
   description: string
-  introduction?: string
-  footer?: string
   photo?: string
-}
-
-interface UseMenusQueryResponse {
-  menus: Connection<MenuSummary>
 }
 
 const MENUS_QUERY = gql`
   query Menus {
     menus {
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
-      edges {
-        cursor
-        node {
-          id
-        }
-      }
-      nodes {
-        id
-        name
-        description
-        introduction
-        footer
-        photo
-      }
+      id
+      name
+      description
+      photo
     }
   }
 `
 
-export function useMenus(): UseResponse<Connection<MenuSummary>> {
-  const { data, error, loading } = useQuery<UseMenusQueryResponse>(MENUS_QUERY)
+export function useMenus(): UseResponse<MenuSummary[]> {
+  const { data, error, loading } = useQuery<{ menus: MenuSummary[] }>(
+    MENUS_QUERY
+  )
 
   if (loading) {
     return { loading }
@@ -55,6 +35,6 @@ export function useMenus(): UseResponse<Connection<MenuSummary>> {
   }
 
   return {
-    data: data?.menus,
+    data: data?.menus || [],
   }
 }

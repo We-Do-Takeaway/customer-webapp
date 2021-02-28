@@ -53,7 +53,6 @@ describe('Basket Page', () => {
     beforeEach(() => {
       const data: Basket = {
         id: '1234',
-        ownerId: '4321',
         basketType: 'ANONYMOUS',
         items: [
           {
@@ -149,7 +148,6 @@ describe('Basket Page', () => {
     beforeEach(() => {
       const data: Basket = {
         id: '1234',
-        ownerId: '4321',
         basketType: 'ANONYMOUS',
         items: [],
       }

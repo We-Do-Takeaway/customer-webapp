@@ -3,8 +3,8 @@ describe('Add Basket Item', () => {
   const firstItem = '[data-testid="section-items-item"]:first-child'
 
   beforeEach(() => {
-    // Reset basket and owner
-    cy.resetOwner()
+    // Reset basket
+    cy.resetBasketId()
   })
 
   afterEach(() => {
@@ -13,7 +13,7 @@ describe('Add Basket Item', () => {
 
   context('When viewing the menu', () => {
     beforeEach(() => {
-      cy.visit('/menu/600dca30-c6e2-4035-ad15-783c122d6ea1')
+      cy.visit('/menu/11ca8caa-e5dc-494d-bcfd-79fdeb34b1b1')
     })
 
     it('display Add options in each item', () => {

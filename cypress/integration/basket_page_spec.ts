@@ -1,10 +1,12 @@
 describe('Basket items page', () => {
   const firstSection = '[data-testid="section-list-section"]:first-child'
   const firstItem = '[data-testid="section-items-item"]:first-child'
+  const sausageId = 'a4b463c9-f786-4945-af19-fb3103d3984b'
+  const menuId = '11ca8caa-e5dc-494d-bcfd-79fdeb34b1b1'
 
   beforeEach(() => {
-    // Reset basket and owner
-    cy.resetOwner()
+    // Reset basket
+    cy.resetBasketId()
   })
 
   afterEach(() => {
@@ -13,7 +15,7 @@ describe('Basket items page', () => {
 
   context('a single item is added to the basket', () => {
     beforeEach(() => {
-      cy.visit('/menu/600dca30-c6e2-4035-ad15-783c122d6ea1')
+      cy.visit(`/menu/${menuId}`)
 
       cy.get(
         `${firstSection} ${firstItem} [data-testid="add-to-basket-button"]`
@@ -34,17 +36,15 @@ describe('Basket items page', () => {
 
       it('display the basket items', () => {
         cy.get('[data-testid="basket-page-item-table"]').should('exist')
-        cy.get('[data-testid="image-600dca30-c6e2-4035-ad15-783c122d6ea4"]')
+        cy.get(`[data-testid="image-${sausageId}"]`)
           .should('have.attr', 'src')
-          .should('include', 'https://www.wedotakeaway.com/images/sausages.jpg')
+          .should('include', '/images/default-thumbnail.png')
 
-        cy.get(
-          '[data-testid="description-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
-        ).contains('Plate of sausages')
+        cy.get(`[data-testid="description-${sausageId}"]`).contains(
+          'Plate of sausages'
+        )
 
-        cy.get(
-          '[data-testid="quantity-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
-        ).contains('1')
+        cy.get(`[data-testid="quantity-${sausageId}"]`).contains('1')
       })
 
       it('let the user proceed to the checkout', () => {
@@ -53,9 +53,7 @@ describe('Basket items page', () => {
 
       context('the user chooses to remove the item', () => {
         beforeEach(() => {
-          cy.get(
-            '[data-testid="remove-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
-          ).click()
+          cy.get(`[data-testid="remove-${sausageId}"]`).click()
         })
 
         it('display a confirmation dialog', () => {
@@ -89,10 +87,7 @@ describe('Basket items page', () => {
               '[data-testid="basket-page-item-table"] tbody tr:first-child td:first-child img'
             )
               .should('have.attr', 'src')
-              .should(
-                'include',
-                'https://www.wedotakeaway.com/images/sausages.jpg'
-              )
+              .should('include', '/images/default-thumbnail.png')
           })
         })
 
@@ -115,42 +110,30 @@ describe('Basket items page', () => {
 
       context('the user tries to reduce the quantity', () => {
         beforeEach(() => {
-          cy.get(
-            '[data-testid="decrease-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
-          ).click()
+          cy.get(`[data-testid="decrease-${sausageId}"]`).click()
         })
 
         it('remain at 1', () => {
-          cy.get(
-            '[data-testid="quantity-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
-          ).contains('1')
+          cy.get(`[data-testid="quantity-${sausageId}"]`).contains('1')
         })
       })
 
       context('the user tries to increase the quantity', () => {
         beforeEach(() => {
-          cy.get(
-            '[data-testid="increase-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
-          ).click()
+          cy.get(`[data-testid="increase-${sausageId}"]`).click()
         })
 
         it('update the quantity to 2', () => {
-          cy.get(
-            '[data-testid="quantity-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
-          ).contains('2')
+          cy.get(`[data-testid="quantity-${sausageId}"]`).contains('2')
         })
 
         context('the user tries to reduce the quantity', () => {
           beforeEach(() => {
-            cy.get(
-              '[data-testid="decrease-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
-            ).click()
+            cy.get(`[data-testid="decrease-${sausageId}"]`).click()
           })
 
           it('reduce to 1', () => {
-            cy.get(
-              '[data-testid="quantity-600dca30-c6e2-4035-ad15-783c122d6ea4"]'
-            ).contains('1')
+            cy.get(`[data-testid="quantity-${sausageId}"]`).contains('1')
           })
         })
       })
@@ -169,7 +152,7 @@ describe('Basket items page', () => {
 
   context('the basket is empty', () => {
     beforeEach(() => {
-      cy.visit('/menu/600dca30-c6e2-4035-ad15-783c122d6ea1')
+      cy.visit(`/menu/${menuId}`)
       cy.get('[data-testid="basket-indicator"] button').click()
     })
 

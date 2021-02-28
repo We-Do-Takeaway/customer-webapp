@@ -1,33 +1,30 @@
 import { gql, useMutation } from '@apollo/client'
 
-import { getOwnerId } from '../../utils'
+import { getBasketId } from '../../utils'
 import { Basket } from '../types'
 import { getServerErrors } from '../utils'
 
 export interface ClearBasketMutationResponse {
-  clearBasketByOwnerId: {
+  clearBasket: {
     basket?: Basket
   }
 }
 
 const CLEAR_BASKET_MUTATION = gql`
-  mutation ClearBaskeByOwner($id: ID!) {
-    clearBasketByOwnerId(id: $id) {
-      basket {
+  mutation ClearBasket($basketId: ID!) {
+    clearBasket(basketId: $basketId) {
+      id
+      items {
         id
-        ownerId
-        items {
-          id
-          name
-          quantity
-        }
+        name
+        quantity
       }
     }
   }
 `
 
 interface IdInput {
-  id: string
+  basketId: string
 }
 
 export const useClearBasket = () => {
@@ -37,10 +34,10 @@ export const useClearBasket = () => {
   >(CLEAR_BASKET_MUTATION)
 
   const clearBasket = () => {
-    const id = getOwnerId()
+    const basketId = getBasketId()
 
     const variables = {
-      id,
+      basketId,
     }
 
     return callClearBasket({ variables })

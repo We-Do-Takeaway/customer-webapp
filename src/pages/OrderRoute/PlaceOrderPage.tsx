@@ -36,7 +36,7 @@ export const PlaceOrderPage: React.FC = () => {
     await clearBasket()
     resetCheckout()
 
-    const orderId = addOrderResult.data?.addOrder.order?.id || ''
+    const orderId = addOrderResult.data?.addOrder?.id || ''
     history.push(`/order/receipt/${orderId}`)
   }
 

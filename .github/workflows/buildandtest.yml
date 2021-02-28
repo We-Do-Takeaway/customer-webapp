@@ -36,7 +36,7 @@ jobs:
           config: pageLoadTimeout=100000,baseUrl=http://localhost:3000
           record: false
         env:
-          CYPRESS_API_URL: http://www.wedotakeaway.com/graphql/
+          CYPRESS_API_URL: https://www.wedotakeaway.com/graphql/
           CYPRESS_KEYCLOAK_CLIENT: ${{ secrets.CYPRESS_KEYCLOAK_CLIENT }}
           CYPRESS_KEYCLOAK_REALM: ${{ secrets.CYPRESS_KEYCLOAK_REALM }}
           CYPRESS_KEYCLOAK_URL: ${{ secrets.CYPRESS_KEYCLOAK_URL }}
@@ -47,7 +47,7 @@ jobs:
           REACT_APP_KEYCLOAK_CLIENT: ${{ secrets.CYPRESS_KEYCLOAK_CLIENT }}
           REACT_APP_KEYCLOAK_REALM: ${{ secrets.CYPRESS_KEYCLOAK_REALM }}
           REACT_APP_KEYCLOAK_URL: ${{ secrets.CYPRESS_KEYCLOAK_URL }}
-          REACT_APP_API_URL: http://www.wedotakeaway.com/graphql/
+          REACT_APP_API_URL: https://www.wedotakeaway.com/graphql/
 
   docker:
     name: Docker
@@ -90,4 +90,4 @@ jobs:
           username: ${{ secrets.APP_SERVER_USERNAME }}
           key: ${{ secrets.APP_SERVER_KEY }}
           port: ${{ secrets.APP_SERVER_PORT }}
-          script: '/opt/wdt/restart.sh'
+          script: 'restart-wdt.sh'

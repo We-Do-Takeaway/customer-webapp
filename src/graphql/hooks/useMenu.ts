@@ -1,14 +1,12 @@
 import { gql, useQuery } from '@apollo/client'
 
-import { Connection, UseResponse } from '../types'
+import { UseResponse } from '../types'
 import { getServerErrors } from '../utils'
 
 export interface Item {
   id: string
   name: string
   description: string
-  introduction?: string
-  footer?: string
   photo?: string
 }
 
@@ -16,76 +14,39 @@ export interface Section {
   id: string
   name: string
   description: string
-  introduction?: string
-  footer?: string
   photo?: string
   displayOrder?: number
-  items?: Connection<Item>
+  items?: Item[]
 }
 
 interface Menu {
   id: string
   name: string
   description: string
-  introduction?: string
-  footer?: string
-  sections?: Connection<Section>
+  sections?: Section[]
 }
 
 interface UseMenuQueryResponse {
-  menuById: Menu
+  menu: Menu
 }
 
 const MENUS_QUERY = gql`
   query GetMenu($id: ID!) {
-    menuById(id: $id) {
+    menu(id: $id) {
       id
       name
       description
-      introduction
-      footer
       photo
       sections {
-        pageInfo {
-          hasNextPage
-          hasPreviousPage
-          startCursor
-          endCursor
-        }
-        edges {
-          cursor
-          node {
-            id
-          }
-        }
-        nodes {
+        id
+        name
+        description
+        photo
+        items {
           id
           name
           description
-          introduction
-          footer
           photo
-          displayOrder
-          items {
-            pageInfo {
-              hasNextPage
-              hasPreviousPage
-              startCursor
-              endCursor
-            }
-            edges {
-              cursor
-              node {
-                id
-              }
-            }
-            nodes {
-              id
-              name
-              description
-              photo
-            }
-          }
         }
       }
     }
@@ -106,6 +67,6 @@ export function useMenu(id: string): UseResponse<Menu> {
   }
 
   return {
-    data: data?.menuById,
+    data: data?.menu,
   }
 }

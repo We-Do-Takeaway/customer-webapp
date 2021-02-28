@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 
-import { MenuSummary } from '../graphql/hooks'
+import { MenuSummary } from '../graphql'
 
 interface MenuProps {
   menu: MenuSummary
@@ -44,25 +44,9 @@ export const MenuDetailCard: React.FC<MenuProps> = ({ menu }) => {
             variant="body2"
             color="textSecondary"
             component="p"
-            data-testid="menu-detail-card-introduction"
-          >
-            {menu.introduction}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            component="p"
             data-testid="menu-detail-card-description"
           >
             {menu.description}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            component="p"
-            data-testid="menu-detail-card-footer"
-          >
-            {menu.footer}
           </Typography>
         </CardContent>
       </div>

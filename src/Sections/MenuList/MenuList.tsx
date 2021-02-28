@@ -22,7 +22,7 @@ export const MenuList: React.FC = () => {
 
   return (
     <>
-      {menus?.nodes.map((menu) => (
+      {menus?.map((menu) => (
         <MenuSummaryCard key={menu.id} menu={menu} />
       ))}
     </>

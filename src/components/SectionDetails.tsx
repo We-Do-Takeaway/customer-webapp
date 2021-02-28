@@ -11,7 +11,7 @@ export const SectionDisplay: React.FC<SectionDisplayProps> = ({ section }) => (
   <div>
     <h2>{section.name}</h2>
     <p>{section.description}</p>
-    {section.items?.nodes.map((item) => (
+    {(section.items || []).map((item) => (
       <ItemCard item={item} />
     ))}
   </div>
