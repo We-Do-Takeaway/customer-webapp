@@ -90,4 +90,4 @@ jobs:
           username: ${{ secrets.APP_SERVER_USERNAME }}
           key: ${{ secrets.APP_SERVER_KEY }}
           port: ${{ secrets.APP_SERVER_PORT }}
-          script: '/opt/wdt/restart.sh'
+          script: 'restart-wdt.sh'
